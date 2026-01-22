@@ -5,9 +5,13 @@ Evaluating and Adapting Digit Recognition Models Beyond the Dataset
 
 PROJECT OVERVIEW
 
-This project studies the gap between benchmark datasets and real-world data using handwritten digit recognition as a case study.
+This project studies the gap between benchmark datasets and real-world data
+using handwritten digit recognition as a case study.
 
-A Convolutional Neural Network (CNN) is trained on the MNIST dataset and then evaluated on real-world digit images collected manually (paint-drawn and handwritten). The goal is to demonstrate that high benchmark accuracy does not necessarily translate to real-world robustness and to explore systematic ways to adapt a model to out-of-distribution data.
+A Convolutional Neural Network (CNN) is trained on the MNIST dataset and 
+then evaluated on real-world digit images collected manually (paint-drawn and handwritten). 
+The goal is to demonstrate that high benchmark accuracy does not necessarily 
+translate to real-world robustness and to explore systematic ways to adapt a model to out-of-distribution data.
 
 ---
 
@@ -76,10 +80,12 @@ This phase confirms that the model learns the MNIST distribution effectively.
 PHASE 2 — REAL-WORLD EVALUATION AND PREPROCESSING
 
 Problem:
-When applying the MNIST-trained model directly to real-world images, performance drops significantly. The model often produces high-confidence but incorrect predictions, especially on handwritten photographs.
+When applying the MNIST-trained model directly to real-world images, performance drops significantly.
+The model often produces high-confidence but incorrect predictions, especially on handwritten photographs.
 
 Solution:
-A custom OpenCV preprocessing pipeline is implemented to convert real-world images into MNIST-like inputs. The pipeline includes:
+A custom OpenCV preprocessing pipeline is implemented to convert real-world 
+images into MNIST-like inputs. The pipeline includes:
 
 * Grayscale conversion
 * Contrast normalization using CLAHE
@@ -187,8 +193,6 @@ Instead, it demonstrates:
 * Practical computer vision preprocessing
 * Careful experimentation and analysis
 * A real-world engineering mindset
-
-These are critical skills for applied AI and machine learning roles.
 
 ---
 

@@ -1,1 +1,221 @@
+🧠 From MNIST to the Real World
+Evaluating and Adapting Digit Recognition Models Beyond the Dataset
+📌 Project Overview
 
+This project explores the gap between benchmark datasets and real-world data using handwritten digit recognition as a case study.
+
+A Convolutional Neural Network (CNN) is first trained on the classic MNIST dataset and then evaluated on real-world digit images collected manually (paint-drawn and handwritten).
+The project demonstrates that high benchmark accuracy does not guarantee real-world robustness, and systematically investigates how preprocessing and fine-tuning can improve performance.
+
+🎯 Objectives
+
+Train a strong MNIST baseline CNN
+
+Evaluate the model on real-world digit images
+
+Design a robust OpenCV preprocessing pipeline
+
+Quantify performance before and after adaptation
+
+Apply fine-tuning and mixed training
+
+Analyze failure cases and limitations
+
+📂 Datasets
+1️⃣ MNIST (Benchmark)
+
+60,000 training images
+
+10,000 test images
+
+Grayscale, 28×28 pixels
+
+Digits 0–9
+
+2️⃣ Real-World Digits (Custom Dataset)
+
+Collected manually and stored in Google Drive:
+
+Paint digits (mouse-drawn, clean background)
+
+Handwritten digits (pen/paper, photographed)
+
+📌 Total images: ~20
+📌 Purpose: simulate out-of-distribution (OOD) data
+
+🧩 Methodology
+
+The project is structured into three clear phases.
+
+🔹 Phase 1 — MNIST Baseline Training
+Model
+
+A simple but effective CNN:
+
+2 convolutional blocks (Conv → ReLU → MaxPool)
+
+Fully connected classifier
+
+Dropout for regularization
+
+Training
+
+Optimizer: Adam
+
+Loss: CrossEntropy
+
+Epochs: 10
+
+Normalization using MNIST mean/std
+
+Result
+
+MNIST test accuracy ≈ 99%
+
+Clean convergence, no overfitting
+
+📌 This confirms the model learns the MNIST distribution well.
+
+🔹 Phase 2 — Real-World Evaluation & Preprocessing
+Problem Identified
+
+When applying the MNIST-trained model directly to real images:
+
+Strong performance degradation
+
+High confidence wrong predictions
+
+Especially poor results on handwritten photos
+
+Solution: OpenCV Preprocessing Pipeline
+
+A custom pipeline was designed to convert real images into MNIST-like inputs:
+
+Grayscale conversion
+
+CLAHE contrast normalization
+
+Adaptive / Otsu thresholding
+
+Morphological operations
+
+Contour filtering (reject paper edges & noise)
+
+Centering via center-of-mass
+
+Final 28×28 normalization
+
+Each image is:
+
+Visualized (original vs processed)
+
+Safely processed with failure handling
+
+Logged and exported
+
+🔹 Phase 3 — Fine-Tuning & Mixed Training
+A) Real-World Fine-Tuning
+
+CNN classifier head unfrozen
+
+Convolutional layers frozen
+
+Heavy augmentation on 28×28 digits
+
+Very low learning rate
+
+B) Mixed Fine-Tuning (MNIST + Real-World)
+
+Alternating batches:
+
+MNIST subset
+
+Real-world digits
+
+All layers unfrozen
+
+Extremely low learning rate
+
+Prevents catastrophic forgetting
+
+📊 Results & Analysis
+Real-World Accuracy (Summary)
+Stage	Overall	Paint	Handwritten
+Before adaptation	~0.42	~0.60	~0.22
+After fine-tuning	~0.47	~0.60	~0.33
+Mixed fine-tuning	~0.47	~0.60	~0.33
+
+📈 A bar chart comparing paint vs handwritten across stages is included in the project.
+
+🔍 Key Observations
+
+Paint digits are relatively easy and already close to MNIST
+
+Handwritten photos are the true challenge
+
+Preprocessing is more important than model complexity
+
+Fine-tuning improves robustness but is limited by data scarcity
+
+The model often makes confident mistakes on OOD inputs
+
+📌 This mirrors real industrial ML behavior.
+
+⚠️ Limitations
+
+Extremely small real-world dataset (~20 images)
+
+No domain-specific data augmentation beyond geometry/noise
+
+CNN architecture intentionally simple
+
+No test-time augmentation or ensemble methods
+
+🚀 Future Improvements
+
+Collect larger handwritten dataset (100+ samples)
+
+Add perspective correction & illumination modeling
+
+Use domain adaptation techniques
+
+Compare CNN vs Transformer-based models
+
+Deploy as a real-time digit scanner
+
+🧠 Why This Project Matters
+
+This project is not about achieving high MNIST accuracy.
+
+It demonstrates:
+
+ML evaluation discipline
+
+Understanding of distribution shift
+
+Practical computer vision preprocessing
+
+Careful experimentation & analysis
+
+Real-world engineering mindset
+
+📌 Exactly the kind of thinking required in applied AI roles.
+
+🛠 Tech Stack
+
+Python
+
+PyTorch
+
+OpenCV
+
+NumPy / Pandas
+
+Matplotlib / Seaborn
+
+Google Colab
+
+✍️ Author
+
+Evangelos Papaioannou
+Electrical & Computer Engineering Graduate

@@ -1,0 +1,115 @@
+PHASE 2 — REAL-WORLD EVALUATION & DOMAIN SHIFT ANALYSIS
+======================================================
+
+Phase 2 evaluates how a CNN trained exclusively on the MNIST dataset performs
+when applied to real-world digit images. This phase intentionally introduces
+data that violates the assumptions of the MNIST benchmark in order to study
+generalization limits and domain shift effects.
+
+
+1. OBJECTIVE
+------------
+
+The goal of Phase 2 is to answer a critical question:
+
+“How well does a high-performing MNIST model generalize to real-world data
+without any retraining or fine-tuning?”
+
+To investigate this, two small custom datasets were evaluated:
+- Digit images drawn digitally (paint)
+- Digit images handwritten on paper and photographed
+
+
+2. DATASET OVERVIEW
+------------------
+
+Total images: 20
+
+- Paint dataset: 10 images (digits 0–9)
+- Handwritten dataset: 10 images (digits 0–9)
+
+All images were:
+- Preprocessed using a custom OpenCV pipeline
+- Converted to MNIST-like 28×28 grayscale format
+- Normalized using MNIST statistics
+- Evaluated using the Phase 1 trained model (no retraining)
+
+
+3. PREPROCESSING PIPELINE
+-------------------------
+
+A robust preprocessing pipeline was introduced to bridge the gap between
+real-world photos and MNIST images. The pipeline includes:
+
+- Grayscale conversion
+- Contrast normalization (CLAHE)
+- Gaussian blurring to reduce noise
+- Adaptive or Otsu thresholding
+- Morphological operations to clean artifacts
+- Contour filtering to isolate the digit
+- Centering and resizing to 28×28 pixels
+
+Despite these steps, some real-world images remain challenging due to lighting,
+stroke style, or incomplete contours.
+
+
+4. RESULTS SUMMARY
+------------------
+
+Processed successfully:
+- 19 / 20 images
+- 1 handwritten image failed preprocessing due to invalid contour detection
+
+Accuracy (only successfully processed images):
+
+- Overall accuracy: ~52.6%
+- Paint accuracy: ~80.0%
+- Handwritten accuracy: ~22.2%
+
+Average model confidence:
+- Handwritten: high confidence despite many incorrect predictions
+- Paint: low confidence even for correct predictions
+
+
+5. ERROR ANALYSIS
+-----------------
+
+Several important failure patterns were observed:
+
+- Handwritten digits are frequently misclassified
+- Errors often occur with very high confidence
+- Common confusions include:
+  - 6 → 1
+  - 8 → 1
+  - 9 → 3
+- Thin strokes or incomplete loops cause loss of shape information
+- The preprocessing pipeline sometimes removes critical digit structure
+
+Paint digits perform better overall but still exhibit:
+- Low confidence predictions
+- Occasional confusion between visually similar shapes
+
+
+6. KEY OBSERVATIONS
+-------------------
+
+Phase 2 highlights several important insights:
+
+- High MNIST accuracy does not translate to real-world robustness
+- The model is overconfident on out-of-distribution data
+- Preprocessing alone cannot fully compensate for domain shift
+- Handwritten photos represent the most challenging domain
+- Real-world noise significantly alters learned feature representations
+
+
+7. CONCLUSION OF PHASE 2
+-----------------------
+
+Phase 2 clearly demonstrates the limitations of benchmark-only evaluation.
+
+Although the model performs extremely well on MNIST, its performance degrades
+substantially when applied to real-world images, especially handwritten ones.
+This confirms the presence of a strong domain shift between MNIST and real data.
+
+These findings motivate Phase 3, where fine-tuning and mixed training strategies
+are applied to adapt the model while preserving its MNIST knowledge.

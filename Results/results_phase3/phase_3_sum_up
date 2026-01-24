@@ -1,0 +1,137 @@
+PHASE 3 — FINE-TUNING AND MIXED-DOMAIN ADAPTATION
+================================================
+
+Phase 3 focuses on adapting the MNIST-trained model to real-world digit images
+while preserving its strong performance on the original MNIST distribution.
+
+Unlike Phase 2, where the model was evaluated without any retraining, Phase 3
+introduces controlled fine-tuning strategies to mitigate domain shift.
+
+
+1. OBJECTIVE
+------------
+
+The main objectives of Phase 3 are:
+
+- Improve recognition accuracy on real-world digit images
+- Reduce high-confidence misclassifications observed in Phase 2
+- Avoid catastrophic forgetting of MNIST features
+- Compare different adaptation strategies in a data-scarce setting
+
+
+2. REAL-WORLD FINE-TUNING (AFTER STAGE)
+--------------------------------------
+
+In the first adaptation step, the model is fine-tuned using only the real-world
+dataset created in Phase 2.
+
+Key characteristics of this stage:
+
+- Convolutional layers are frozen
+- Only the classifier head is updated
+- A low learning rate is used
+- Strong data augmentation is applied
+- Training is performed for a small number of epochs
+
+This approach assumes that low-level features (edges, strokes) learned from
+MNIST remain useful, while the classifier needs adjustment to new digit styles.
+
+RESULTS (AFTER STAGE):
+
+- Paint accuracy remains high and stable
+- Handwritten accuracy shows limited improvement
+- Overfitting is partially avoided, but generalization is constrained by the
+  extremely small dataset size
+
+This confirms that fine-tuning helps, but is insufficient on its own when data
+is very limited.
+
+
+3. MIXED FINE-TUNING (MIXED STAGE)
+---------------------------------
+
+To further improve performance, a mixed fine-tuning strategy is introduced.
+
+In this stage, the model is trained on:
+
+- A subset of the MNIST training data
+- The real-world digit dataset (paint + handwritten)
+
+Training alternates between MNIST batches and real-world batches, ensuring that
+the model continuously sees both domains.
+
+Key design choices:
+
+- All layers are unfrozen
+- Very low learning rate is used to ensure stable adaptation
+- MNIST data acts as a regularizer
+- Real-world data guides domain-specific adaptation
+
+This setup reflects a realistic deployment scenario, where new data is added
+incrementally without discarding existing knowledge.
+
+
+4. RESULTS SUMMARY
+------------------
+
+The mixed fine-tuning approach yields the most balanced performance across
+domains.
+
+Observed improvements:
+
+- Paint accuracy remains consistently high
+- Handwritten accuracy increases substantially compared to Phase 2
+- Overall real-world accuracy improves compared to both baseline and
+  real-world-only fine-tuning
+
+The bar chart comparing accuracy across stages clearly shows:
+
+- Minimal improvement for handwritten digits in the "after" stage
+- Significant improvement for handwritten digits in the "mixed" stage
+- Stable performance on paint digits across all stages
+
+
+5. QUALITATIVE ANALYSIS
+----------------------
+
+Visual inspection of misclassified samples reveals:
+
+- Improved digit structure preservation after mixed fine-tuning
+- Fewer extreme shape distortions in processed images
+- Reduced overconfidence on incorrect handwritten predictions
+
+However, some errors persist due to:
+
+- Very thin strokes
+- Incomplete loops
+- Ambiguous handwriting styles
+- Limitations imposed by the small dataset size
+
+
+6. CONCLUSION OF PHASE 3
+-----------------------
+
+Phase 3 demonstrates that:
+
+- Controlled fine-tuning can partially bridge domain gaps
+- Mixed-domain training is more effective than real-world-only fine-tuning
+- Benchmark datasets alone are insufficient for real-world robustness
+- Data scarcity remains a fundamental limitation
+
+The mixed fine-tuning strategy provides the best trade-off between adaptation
+and stability, making it the most realistic approach for extending MNIST-based
+models to real-world applications.
+
+
+7. OVERALL PROJECT INSIGHT
+-------------------------
+
+Taken together, Phases 1–3 illustrate a complete and realistic machine learning
+workflow:
+
+- Phase 1 validates the model under ideal conditions
+- Phase 2 exposes real-world weaknesses and domain shift
+- Phase 3 applies principled adaptation strategies to address these weaknesses
+
+This progression reflects how machine learning systems are developed, evaluated,
+and improved in real-world scenarios.

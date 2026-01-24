@@ -129,25 +129,22 @@ RESULTS AND ANALYSIS
 
 Real-World Accuracy Summary
 
-Stage: Before adaptation
+PHASE 1 — MNIST
+- Test accuracy ≈ 99%
+- Stable training and strong baseline performance
 
-* Overall accuracy approximately 0.42
-* Paint digits around 0.60
-* Handwritten digits around 0.22
+PHASE 2 — REAL-WORLD (NO RETRAINING)
+- Overall accuracy ≈ 52%
+- Paint digits ≈ 80%
+- Handwritten digits ≈ 22%
+- Significant performance drop due to domain shift
 
-Stage: After real-world fine-tuning
-
-* Overall accuracy approximately 0.47
-* Paint digits around 0.60
-* Handwritten digits around 0.33
-
-Stage: After mixed fine-tuning
-
-* Overall accuracy approximately 0.47
-* Paint digits around 0.60
-* Handwritten digits around 0.33
-
-A bar chart comparing paint and handwritten accuracy across stages is included in the project outputs.
+PHASE 3 — FINE-TUNING
+- Real-world-only fine-tuning: limited gains
+- Mixed MNIST + real-world fine-tuning:
+  - Paint accuracy ≈ 90%
+  - Handwritten accuracy ≈ 89%
+  - Best overall real-world performance
 
 ---
 

@@ -1,1 +1,35 @@
+RESULTS SUMMARY
+===============
+
+This project evaluated the generalization of an MNIST-trained CNN across three
+stages: baseline evaluation, real-world testing, and fine-tuned adaptation.
+
+PHASE 1 — MNIST BASELINE
+- Test accuracy ≈ 99.1%
+- Stable training and validation curves
+- Errors limited to visually similar digits
+- Confirms a strong and correct baseline model
+
+PHASE 2 — REAL-WORLD EVALUATION (NO RETRAINING)
+- Overall real-world accuracy ≈ 52%
+- Paint digits: ≈ 80% accuracy
+- Handwritten photos: ≈ 22% accuracy
+- High-confidence misclassifications observed
+- Strong performance drop due to domain shift
+
+PHASE 3 — FINE-TUNING & MIXED TRAINING
+- Real-world-only fine-tuning: limited improvement
+- Mixed fine-tuning (MNIST + real-world):
+  - Paint accuracy remains high (≈ 90%)
+  - Handwritten accuracy improves substantially (≈ 89%)
+  - Best overall real-world performance
+
+KEY INSIGHTS
+- High MNIST accuracy does not guarantee real-world robustness
+- Preprocessing alone cannot fully solve domain shift
+- Mixed-domain fine-tuning provides the best trade-off between adaptation and stability
+- Data scarcity remains the main limiting factor
+
+Overall, the project demonstrates a complete and realistic ML workflow,
+from benchmark validation to real-world adaptation.
 

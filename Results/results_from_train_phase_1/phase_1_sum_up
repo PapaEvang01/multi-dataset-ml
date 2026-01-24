@@ -1,1 +1,90 @@
+PHASE 1 — BASELINE TRAINING ON MNIST
+===================================
+
+Phase 1 establishes a strong and reliable baseline using the MNIST dataset.
+The objective of this phase is not experimentation with real-world data, but
+to verify that the model architecture, training pipeline, and evaluation
+procedure are correct and well-calibrated on a standard benchmark.
+
+
+1. SETUP AND TRAINING
+--------------------
+
+A Convolutional Neural Network (CNN) was trained on the MNIST dataset using:
+
+- Input: 28×28 grayscale images
+- Classes: digits 0–9
+- Training samples: 60,000
+- Test samples: 10,000
+- Optimizer: Adam
+- Loss function: CrossEntropyLoss
+- Epochs: 10
+
+The CNN architecture consists of two convolutional blocks followed by a
+fully connected classifier head. This setup is commonly used for MNIST and
+is sufficient to achieve near-state-of-the-art performance.
+
+
+2. TRAINING DYNAMICS
+-------------------
+
+Training curves show stable and expected behavior:
+
+- Training loss decreases steadily across epochs
+- Test loss decreases initially and stabilizes at a low value
+- Training accuracy increases smoothly
+- Test accuracy closely follows training accuracy
+
+No signs of instability or severe overfitting were observed. The small gap
+between training and test performance indicates good generalization within
+the MNIST domain.
+
+
+3. FINAL PERFORMANCE
+-------------------
+
+After 10 epochs, the model achieved:
+
+- Training accuracy ≈ 99.6%
+- Test accuracy ≈ 99.1%
+- Test loss ≈ 0.027
+
+These results confirm that:
+- The model is correctly implemented
+- The training pipeline is functioning as expected
+- The learned features are well-suited for the MNIST distribution
+
+
+4. CONFUSION MATRIX ANALYSIS
+---------------------------
+
+The confusion matrix shows a strong diagonal dominance, indicating that most
+digits are classified correctly.
+
+Observed error patterns are limited and mostly occur between visually similar
+digits, such as:
+- 4 and 9
+- 5 and 3
+- 7 and 1
+
+These confusions are typical for MNIST and do not indicate structural issues
+with the model.
+
+
+5. CONCLUSION OF PHASE 1
+-----------------------
+
+Phase 1 successfully establishes a high-quality baseline:
+
+- The CNN achieves excellent accuracy on MNIST
+- Training and evaluation behave predictably
+- Errors are rare and interpretable
+
+This phase validates the model architecture and serves as a reference point
+for subsequent phases.
+
+Importantly, Phase 1 also highlights a known limitation:
+high accuracy on MNIST does not guarantee good performance on real-world
+digit images. This observation motivates Phase 2, where domain shift and
+real-world data are introduced.
 

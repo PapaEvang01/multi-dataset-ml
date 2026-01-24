@@ -8,8 +8,8 @@ created to study the domain gap between benchmark data and real-world inputs.
 1. MNIST DATASET
 ----------------
 
-The MNIST dataset (Modified National Institute of Standards and Technology) is a
-widely used benchmark dataset for handwritten digit recognition.
+The MNIST dataset  is a widely used benchmark 
+dataset for handwritten digit recognition.
 
 It consists of:
 - 70,000 grayscale images of handwritten digits (0–9)

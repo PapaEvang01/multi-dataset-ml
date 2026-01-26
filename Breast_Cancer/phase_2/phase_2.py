@@ -72,6 +72,37 @@ def ensure_dir(path: str) -> None:
 
 
 # -----------------------------
+#  Reusable model factory
+# -----------------------------
+
+def get_models(random_state: int = 42) -> dict:
+    """
+    Return initialized Phase 2 models.
+
+    Why this function exists:
+    - Keeps model definitions in one place (no copy-paste across phases)
+    - Guarantees Phase 3 analyses use the exact same models
+    """
+    svm_model = Pipeline(steps=[
+        ("scaler", StandardScaler()),
+        ("svm", SVC(kernel="rbf", probability=True, random_state=random_state))
+    ])
+
+    rf_model = RandomForestClassifier(
+        n_estimators=100,
+        max_depth=3,
+        max_features=5,
+        bootstrap=False,
+        random_state=random_state
+    )
+
+    return {
+        "SVM_RBF": svm_model,
+        "RandomForest": rf_model
+    }
+
+
+# -----------------------------
 # Helpers: metrics and evaluation
 # -----------------------------
 
@@ -109,7 +140,7 @@ def evaluate_predictions(
     y_proba_benign: np.ndarray
 ) -> dict:
     """
-    We keep the same ROC-AUC convention as your Phase 1:
+    We keep the same ROC-AUC convention as Phase 1:
       ROC-AUC with positive class = benign (label 1)
 
     Even though we clinically focus on malignant misses, we compute ROC-AUC
@@ -151,33 +182,65 @@ def predict_with_threshold(proba_malignant: np.ndarray, threshold: float) -> np.
     return np.where(proba_malignant >= threshold, 0, 1)
 
 
-def tune_threshold_minimize_fn(
+# -----------------------------
+#  Reusable threshold tuner 
+# -----------------------------
+
+def tune_threshold_medical(
     y_true: np.ndarray,
     proba_malignant: np.ndarray,
     thresholds: np.ndarray
-):
+) -> dict:
     """
-    We explicitly optimize for medical safety:
+    Medical objective used across phases:
 
     1) Minimize FN (malignant -> benign)
     2) If tie, minimize FP (benign -> malignant)
     3) If tie, maximize accuracy
 
-    Why this ordering:
-    - FN are the most dangerous outcome in screening support
-    - FP are undesirable (stress, follow-up tests) but usually less risky than FN
-    - accuracy is a secondary consideration after safety objectives
-
-    Returns:
-      best_threshold, curve (list of per-threshold records)
+    Returns a dictionary describing the best threshold and its metrics:
+      {
+        "threshold": float,
+        "fn_mal": int,
+        "fp_mal": int,
+        "accuracy": float,
+        "key": (fn, fp, -acc)
+      }
     """
     best = None
-    curve = []
 
     for t in thresholds:
         t = float(t)
         y_pred_t = predict_with_threshold(proba_malignant, t)
-        tp, fn, fp, tn, _ = compute_confusion_counts(y_true, y_pred_t)
+        _, fn, fp, _, _ = compute_confusion_counts(y_true, y_pred_t)
+        acc = accuracy_score(y_true, y_pred_t)
+
+        key = (fn, fp, -acc)
+        if best is None or key < best["key"]:
+            best = {
+                "threshold": t,
+                "fn_mal": int(fn),
+                "fp_mal": int(fp),
+                "accuracy": float(acc),
+                "key": key
+            }
+
+    return best
+
+
+def threshold_curve(
+    y_true: np.ndarray,
+    proba_malignant: np.ndarray,
+    thresholds: np.ndarray
+) -> list[dict]:
+    """
+    Create a per-threshold curve for plotting trade-offs.
+    """
+    curve = []
+    for t in thresholds:
+        t = float(t)
+        y_pred_t = predict_with_threshold(proba_malignant, t)
+        _, fn, fp, _, _ = compute_confusion_counts(y_true, y_pred_t)
         acc = accuracy_score(y_true, y_pred_t)
 
         curve.append({
@@ -186,12 +249,7 @@ def tune_threshold_minimize_fn(
             "fp_mal": int(fp),
             "accuracy": float(acc)
         })
-
-        key = (fn, fp, -acc)  # lower is better
-        if best is None or key < best["key"]:
-            best = {"key": key, "threshold": t}
-
-    return best["threshold"], curve
+    return curve
 
 
 # -----------------------------
@@ -224,10 +282,6 @@ def plot_threshold_tradeoff(curve: list[dict], title_prefix: str, out_dir: str) 
     Two plots:
       1) accuracy_vs_threshold.png
       2) fn_fp_vs_threshold.png
-
-    Why these plots:
-    - They visualize the trade-off you are actively choosing in threshold tuning.
-    - You can justify a safer threshold with evidence (FN drop vs FP rise).
     """
     thresholds = [c["threshold"] for c in curve]
     acc = [c["accuracy"] for c in curve]
@@ -258,16 +312,6 @@ def plot_threshold_tradeoff(curve: list[dict], title_prefix: str, out_dir: str) 
 
 
 def plot_train_test_accuracy(models_info: list[dict], save_path: str) -> None:
-    """
-    Bar chart comparing:
-      - train accuracy
-      - test accuracy (default threshold)
-      - test accuracy (tuned threshold)
-
-    Why:
-    - lets you quickly spot generalization issues (train >> test)
-    - shows how threshold tuning affects accuracy
-    """
     names = [m["name"] for m in models_info]
     train = [m["train_acc"] for m in models_info]
     test_default = [m["test_acc_default"] for m in models_info]
@@ -336,33 +380,17 @@ def print_model_block(
     tuned_metrics: dict,
     best_threshold: float
 ) -> None:
-    """
-    This prints a readable "experiment log" for each model.
-    It's intentionally verbose to help you interpret results quickly.
-    """
     print("\n" + "=" * 80)
     print(f"MODEL: {name}")
     print("=" * 80)
 
-    # Why we print train accuracy:
-    # - to see if the model fits the training data properly
-    # - large train-test gap indicates overfitting
     print("Training performance:")
     print(f"  Train accuracy: {train_acc:.4f}")
 
-    # Default decision threshold block:
     print("\nTest performance (default threshold = 0.5):")
     print(f"  Test accuracy: {default_metrics['accuracy']:.4f}")
     print(f"  ROC-AUC (positive class = benign [1]): {default_metrics['roc_auc_pos_benign']:.4f}")
-
-    # Why malignant recall matters:
-    # - it's the proportion of malignant cases correctly flagged
-    # - low recall means more missed malignancies (dangerous)
     print(f"  Malignant recall (sensitivity): {default_metrics['recall_mal']:.4f}")
-
-    # Why FN/FP counts matter:
-    # - FN are clinically critical misses
-    # - FP are false alarms, less dangerous but still important
     print(f"  False negatives (malignant -> benign): {default_metrics['fn_mal']}")
     print(f"  False positives (benign -> malignant): {default_metrics['fp_mal']}")
     print(f"  Benign specificity: {default_metrics['specificity_ben']:.4f}")
@@ -370,7 +398,6 @@ def print_model_block(
     print("\n  Confusion matrix (rows=true, cols=pred):")
     print(f"  {default_metrics['confusion_matrix']}")
 
-    # Threshold tuning block:
     print("\nThreshold tuning (medical discipline):")
     print(f"  Selected threshold on P(malignant): {best_threshold:.3f}")
     print("  Rationale: lower FN first, then control FP, then keep accuracy as high as possible.")
@@ -385,7 +412,6 @@ def print_model_block(
     print("\n  Confusion matrix (rows=true, cols=pred):")
     print(f"  {tuned_metrics['confusion_matrix']}")
 
-    # Quick summary line (easy to scan):
     print("\nSummary:")
     print(
         f"  Default: acc={default_metrics['accuracy']:.4f}, FN={default_metrics['fn_mal']}, FP={default_metrics['fp_mal']}"
@@ -399,17 +425,11 @@ def print_model_block(
 # -----------------------------
 
 def main():
-    # Where to save outputs (your request)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, "results_phase2")
 
     general_dir = os.path.join(results_dir, "general")
-    svm_dir = os.path.join(results_dir, "SVM")
-    rf_dir = os.path.join(results_dir, "RandomForest")
-
     ensure_dir(general_dir)
-    ensure_dir(svm_dir)
-    ensure_dir(rf_dir)
 
     # Load dataset
     data = load_breast_cancer()
@@ -425,8 +445,6 @@ def main():
     print("Goal: Train SVM and Random Forest, then tune threshold to reduce false negatives.\n")
 
     # Train/test split
-    # Why stratify:
-    # - preserves malignant/benign ratio in both train and test
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.30, random_state=42, stratify=y
     )
@@ -435,28 +453,21 @@ def main():
     print(f"  Test size : {X_test.shape[0]}")
     print("  Reason: keep a clean held-out test set for final evaluation.\n")
 
-    # Models
-    # SVM needs scaling; we use a Pipeline to avoid leakage and keep it clean.
-    svm_model = Pipeline(steps=[
-        ("scaler", StandardScaler()),
-        ("svm", SVC(kernel="rbf", probability=True, random_state=42))
-    ])
+    # Models (now created via get_models)
+    models_dict = get_models(random_state=42)
 
-    # Random Forest as you requested
-    rf_model = RandomForestClassifier(
-        n_estimators=100,
-        max_depth=3,
-        max_features=5,
-        bootstrap=False,
-        random_state=42
-    )
+    # Per-model output directories
+    svm_dir = os.path.join(results_dir, "SVM")
+    rf_dir = os.path.join(results_dir, "RandomForest")
+    ensure_dir(svm_dir)
+    ensure_dir(rf_dir)
 
     models = [
-        ("SVM_RBF", svm_model, svm_dir),
-        ("RandomForest", rf_model, rf_dir)
+        ("SVM_RBF", models_dict["SVM_RBF"], svm_dir),
+        ("RandomForest", models_dict["RandomForest"], rf_dir),
     ]
 
-    # Threshold grid for tuning
+    # Threshold grid
     thresholds = np.linspace(0.05, 0.95, 91)
     print("Threshold tuning setup:")
     print(f"  Testing {len(thresholds)} thresholds from 0.05 to 0.95")
@@ -470,17 +481,16 @@ def main():
         print(f"Training model: {name}")
         print("-" * 80)
 
-        # Train
         model.fit(X_train, y_train)
 
         # Train accuracy
         train_acc = accuracy_score(y_train, model.predict(X_train))
 
-        # Default predictions (equivalent to threshold=0.5 for many classifiers)
+        # Default predictions
         y_test_pred_default = model.predict(X_test)
 
-        # Probabilities for threshold tuning and ROC-AUC
-        # NOTE: predict_proba columns correspond to classes [0,1] => [malignant, benign]
+        # Probabilities
+        # predict_proba columns correspond to classes [0,1] => [malignant, benign]
         proba_test = model.predict_proba(X_test)
         p_mal_test = proba_test[:, 0]
         p_ben_test = proba_test[:, 1]
@@ -488,14 +498,18 @@ def main():
         # Evaluate default
         default_metrics = evaluate_predictions(y_test, y_test_pred_default, p_ben_test)
 
-        # Threshold tuning
-        best_t, curve = tune_threshold_minimize_fn(y_test, p_mal_test, thresholds)
+        # Threshold tuning (now via tune_threshold_medical)
+        best = tune_threshold_medical(y_test, p_mal_test, thresholds)
+        best_t = best["threshold"]
 
-        # Evaluate tuned threshold
+        # Threshold curve for plots
+        curve = threshold_curve(y_test, p_mal_test, thresholds)
+
+        # Evaluate tuned
         y_test_pred_tuned = predict_with_threshold(p_mal_test, best_t)
         tuned_metrics = evaluate_predictions(y_test, y_test_pred_tuned, p_ben_test)
 
-        # Verbose printing (your request)
+        # Verbose printing
         print_model_block(
             name=name,
             train_acc=train_acc,
@@ -504,12 +518,12 @@ def main():
             best_threshold=best_t
         )
 
-        # Also print RF test accuracy explicitly (your earlier requirement)
+        # Explicit RF line (as before)
         if name == "RandomForest":
             print("\nRandom Forest (requested config) — Test accuracy (default threshold=0.5): "
                   f"{default_metrics['accuracy']:.4f}\n")
 
-        # Save plots: confusion matrices
+        # Save confusion matrices
         plot_confusion_matrix(
             default_metrics["confusion_matrix"],
             labels=["malignant", "benign"],
@@ -526,7 +540,7 @@ def main():
         # Save threshold trade-off plots
         plot_threshold_tradeoff(curve, title_prefix=name, out_dir=out_dir)
 
-        # Save text reports (default and tuned)
+        # Save reports
         rep_default = classification_report(
             y_test, y_test_pred_default,
             target_names=["malignant", "benign"],
@@ -577,7 +591,7 @@ def main():
             ]
         )
 
-        # Collect summary row (general table)
+        # Summary row
         summary_rows.append({
             "model": name,
             "train_accuracy": f"{train_acc:.6f}",
@@ -602,7 +616,7 @@ def main():
             "test_acc_tuned": float(tuned_metrics["accuracy"]),
         })
 
-    # Save general outputs
+    # General outputs
     plot_train_test_accuracy(
         acc_plot_info,
         save_path=os.path.join(general_dir, "train_test_accuracy_phase2.png")

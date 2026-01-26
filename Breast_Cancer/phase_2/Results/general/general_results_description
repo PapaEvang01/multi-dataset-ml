@@ -1,0 +1,70 @@
+General Results — Phase 2: Advanced Models & Threshold Tuning
+
+This folder summarizes the overall results of Phase 2, where more powerful
+classification models are evaluated under a medically informed decision framework.
+
+Phase 2 extends the baseline analysis (Phase 1) by introducing:
+- Non-linear and ensemble models
+- Probability-based decision making
+- Explicit control of the false negative rate through threshold tuning
+
+Models Evaluated:
+-----------------
+1. Support Vector Machine (SVM) with RBF kernel
+2. Random Forest (100 trees, max depth = 3, 5 features per split, no bootstrapping)
+
+Both models are trained on the same train/test split used in Phase 1 to ensure
+a fair and consistent comparison.
+
+Key Results & Visualizations:
+-----------------------------
+- train_test_accuracy.png
+  Comparison of training accuracy and test accuracy under:
+    • Default decision threshold (0.5)
+    • Tuned decision threshold (optimized for medical safety)
+
+  This plot highlights the trade-off between raw accuracy and clinically
+  motivated decision rules.
+
+- Confusion Matrices (default vs tuned threshold)
+  Confusion matrices are reported for each model under:
+    • Threshold = 0.5 (standard classification)
+    • Tuned threshold (reduced false negatives)
+
+  The tuned threshold prioritizes minimizing malignant cases incorrectly
+  classified as benign.
+
+- FN / FP vs Threshold plots
+  These plots show how false negatives and false positives evolve as the
+  decision threshold on P(malignant) changes.
+
+  They explicitly illustrate the medical trade-off:
+    • Lower threshold → fewer false negatives, more false positives
+    • Higher threshold → fewer false positives, more false negatives
+
+- Accuracy vs Threshold plots
+  Accuracy is plotted across a range of thresholds to show how overall
+  performance changes when the decision rule is adjusted.
+
+Summary Table:
+--------------
+- phase2_summary.csv
+  Consolidated table reporting key metrics for all Phase 2 models, including:
+    • Train accuracy
+    • Test accuracy (default threshold)
+    • Test accuracy (tuned threshold)
+    • False negatives
+    • False positives
+
+Interpretation:
+---------------
+Although threshold tuning may slightly reduce overall accuracy, it significantly
+reduces or eliminates false negatives. In a medical decision-support context,
+this trade-off is intentional and desirable, as missing a malignant case is
+considered more costly than a false alarm.
+
+Phase 2 demonstrates that model evaluation must go beyond accuracy alone and
+incorporate domain-specific risk considerations.
+
+These results provide a strong foundation for future phases involving
+calibration, interpretability, and more advanced validation strategies.

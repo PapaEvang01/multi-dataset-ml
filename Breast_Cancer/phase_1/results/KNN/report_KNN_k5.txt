@@ -1,0 +1,20 @@
+MODEL: KNN_k5
+
+Test set classification report:
+              precision    recall  f1-score   support
+
+   malignant     1.0000    0.8906    0.9421        64
+      benign     0.9386    1.0000    0.9683       107
+
+    accuracy                         0.9591       171
+   macro avg     0.9693    0.9453    0.9552       171
+weighted avg     0.9616    0.9591    0.9585       171
+
+Train accuracy: 0.9724
+Test  accuracy: 0.9591
+ROC-AUC (positive class=benign [1]): 0.9827
+False negatives (malignant → predicted benign): 7
+
+Confusion Matrix (rows=true, cols=pred):
+[[ 57   7]
+ [  0 107]]

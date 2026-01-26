@@ -1,0 +1,25 @@
+MODEL: SVM_RBF (Tuned threshold)
+Test set classification report:
+
+precision    recall  f1-score   support
+
+   malignant     0.8533    1.0000    0.9209        64
+      benign     1.0000    0.8972    0.9458       107
+
+    accuracy                         0.9357       171
+   macro avg     0.9267    0.9486    0.9333       171
+weighted avg     0.9451    0.9357    0.9365       171
+
+Reasoning notes:
+- Threshold tuning changes the decision boundary for malignant detection.
+- Objective order: minimize FN, then minimize FP, then maximize accuracy.
+- Expectation: FN decrease, FP may increase; we report the trade-off explicitly.
+
+Chosen threshold on P(malignant): 0.1500
+Train accuracy: 0.9824
+Test accuracy (tuned threshold): 0.9357
+ROC-AUC (positive class=benign [1]): 0.9978
+Malignant recall (sensitivity): 1.0000
+Benign specificity: 0.8972
+False negatives (malignant -> benign): 0
+False positives (benign -> malignant): 11

@@ -1,0 +1,23 @@
+MODEL: RandomForest (Default threshold=0.5)
+Test set classification report:
+
+precision    recall  f1-score   support
+
+   malignant     0.9062    0.9062    0.9062        64
+      benign     0.9439    0.9439    0.9439       107
+
+    accuracy                         0.9298       171
+   macro avg     0.9251    0.9251    0.9251       171
+weighted avg     0.9298    0.9298    0.9298       171
+
+Reasoning notes:
+- Default threshold is the standard decision rule.
+- In medical screening, FN are critical; we later tune threshold to reduce FN.
+
+Train accuracy: 0.9849
+Test accuracy (threshold=0.5): 0.9298
+ROC-AUC (positive class=benign [1]): 0.9883
+Malignant recall (sensitivity): 0.9062
+Benign specificity: 0.9439
+False negatives (malignant -> benign): 6
+False positives (benign -> malignant): 6

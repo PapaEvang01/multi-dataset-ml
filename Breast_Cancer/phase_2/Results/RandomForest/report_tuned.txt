@@ -1,0 +1,25 @@
+MODEL: RandomForest (Tuned threshold)
+Test set classification report:
+
+precision    recall  f1-score   support
+
+   malignant     0.8205    1.0000    0.9014        64
+      benign     1.0000    0.8692    0.9300       107
+
+    accuracy                         0.9181       171
+   macro avg     0.9103    0.9346    0.9157       171
+weighted avg     0.9328    0.9181    0.9193       171
+
+Reasoning notes:
+- Threshold tuning changes the decision boundary for malignant detection.
+- Objective order: minimize FN, then minimize FP, then maximize accuracy.
+- Expectation: FN decrease, FP may increase; we report the trade-off explicitly.
+
+Chosen threshold on P(malignant): 0.1300
+Train accuracy: 0.9849
+Test accuracy (tuned threshold): 0.9181
+ROC-AUC (positive class=benign [1]): 0.9883
+Malignant recall (sensitivity): 1.0000
+Benign specificity: 0.8692
+False negatives (malignant -> benign): 0
+False positives (benign -> malignant): 14

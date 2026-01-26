@@ -1,0 +1,30 @@
+General Evaluation Results — Phase 1
+-----------------------------------
+
+This folder contains evaluation plots and summary results used to compare
+baseline models during Phase 1 of the project.
+
+Contents:
+
+- train_test_accuracy.png
+  Comparison of training and test accuracy for each baseline model.
+  This plot is used to assess generalization and detect overfitting.
+
+- roc_curves.png
+  Receiver Operating Characteristic (ROC) curves computed on the test set.
+  The Area Under the Curve (AUC) summarizes the overall separability of
+  malignant and benign samples for each model.
+
+- false_negatives.png
+  Comparison of false negative counts across models (malignant cases
+  incorrectly predicted as benign). This is a clinically critical metric
+  used to guide model selection.
+
+- phase1_summary.csv
+  Summary table containing key evaluation metrics for all Phase 1 models,
+  including accuracy, ROC-AUC, and false negatives.
+
+These results demonstrate that Logistic Regression achieves superior
+performance in terms of sensitivity and overall separability while
+maintaining strong generalization. Based on these metrics, Logistic
+Regression is selected as the strongest baseline model for Phase 1.

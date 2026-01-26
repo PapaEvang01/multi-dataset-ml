@@ -1,0 +1,72 @@
+"""
+Breast Cancer Classification — Phase 1: Baseline Models (Tabular Data)
+
+This script implements Phase 1 of a structured, real-world machine learning pipeline
+using the Breast Cancer Wisconsin (Diagnostic) dataset. The goal of this phase is to
+establish strong, interpretable baseline models and verify the quality of the data
+and evaluation setup before moving to more complex approaches.
+
+Problem Description:
+--------------------
+Given numerical features extracted from breast tumor biopsies (e.g., radius, texture,
+smoothness, concavity), the task is to classify each sample as either:
+    - Malignant (0)
+    - Benign (1)
+
+Dataset:
+--------
+- Source: sklearn.datasets.load_breast_cancer
+- Samples: 569
+- Features: 30 numerical features
+- Target convention (sklearn):
+    0 -> malignant
+    1 -> benign
+
+Pipeline Overview:
+------------------
+1. Data Loading & Inspection
+   - Load the dataset into pandas DataFrames
+   - Print dataset shape, feature names, and class distribution
+   - Display a small preview of the data
+   - Plot basic exploratory figures (class distribution, feature histograms)
+
+2. Train/Test Split
+   - Stratified split to preserve class balance
+   - 70% training set / 30% held-out test set
+   - Test set is never used during training
+
+3. Baseline Models (Phase 1)
+   - Logistic Regression (interpretable linear baseline)
+   - k-Nearest Neighbors (simple non-parametric baseline)
+   - Feature scaling applied via sklearn Pipelines to prevent data leakage
+
+4. Training & Evaluation
+   - Models are trained exclusively on the training set
+   - Evaluation performed on the held-out test set
+   - Metrics reported:
+       * Training accuracy
+       * Test accuracy
+       * Precision, Recall, F1-score
+       * ROC-AUC (when available)
+       * Confusion matrix
+       * False negatives (malignant predicted as benign), which are critical in
+         medical decision-support systems
+
+5. Outputs
+   - Confusion matrix plots per model
+   - ROC curve comparison
+   - Train vs test accuracy comparison
+   - False negative comparison across models
+   - Summary CSV with key metrics for all models
+
+Design Philosophy:
+------------------
+This phase prioritizes correctness, interpretability, and evaluation discipline
+over raw performance. The results of Phase 1 serve as a validated baseline and
+reference point for Phase 2 (more advanced models and tuning).
+
+Author:
+-------
+Evangelos Papaioannou
+Electrical & Computer Engineering (Integrated Master’s)
+"""

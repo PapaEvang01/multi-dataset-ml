@@ -1,0 +1,96 @@
+Random Forest Results — Phase 2: Threshold-Aware Evaluation
+
+This file summarizes the results of the Random Forest classifier used in Phase 2
+of the breast cancer classification pipeline. The focus of this phase is not only
+on raw accuracy, but on medically informed decision-making through probability
+threshold tuning.
+
+Model Configuration:
+--------------------
+- Algorithm: Random Forest
+- Number of trees (estimators): 100
+- Maximum tree depth: 3
+- Maximum features per split: 5
+- Bootstrapping: Disabled
+- Output: Class probabilities P(malignant), P(benign)
+
+This configuration intentionally limits model complexity to reduce overfitting
+and improve interpretability while maintaining strong performance.
+
+Evaluation Setup:
+-----------------
+- Train/Test split: 70% / 30% (stratified)
+- Positive class for probability analysis: malignant
+- Metrics emphasized:
+    * Accuracy
+    * ROC-AUC
+    * Confusion matrix
+    * False negatives (malignant → predicted benign)
+    * False positives (benign → predicted malignant)
+
+Two evaluation regimes are reported:
+1) Default decision threshold (0.5)
+2) Tuned threshold optimized for medical safety
+
+------------------------------------------------------------
+1) Default Threshold Results (threshold = 0.5)
+------------------------------------------------------------
+- Test accuracy: 0.9298
+- ROC-AUC: 0.9883
+- Malignant recall (sensitivity): 0.9062
+- Benign specificity: 0.9439
+
+Confusion Matrix (rows=true, cols=pred):
+    [[58  6]
+     [ 6 101]]
+
+- False negatives: 6
+- False positives: 6
+
+Interpretation:
+---------------
+Using the standard threshold yields balanced performance with high accuracy.
+However, 6 malignant cases are incorrectly classified as benign, which is
+undesirable in a medical screening context where missed cancers are critical.
+
+------------------------------------------------------------
+2) Tuned Threshold Results (threshold = 0.13)
+------------------------------------------------------------
+- Test accuracy: 0.9181
+- ROC-AUC: 0.9883
+- Malignant recall (sensitivity): 1.0000
+- Benign specificity: 0.8692
+
+Confusion Matrix (rows=true, cols=pred):
+    [[64  0]
+     [14 93]]
+
+- False negatives: 0
+- False positives: 14
+
+Interpretation:
+---------------
+Lowering the decision threshold eliminates all false negatives, ensuring that
+every malignant case is detected. This comes at the cost of increased false
+positives, meaning more benign cases are flagged for further examination.
+
+This trade-off is intentional and aligned with medical practice, where it is
+preferable to trigger additional tests rather than miss a cancer diagnosis.
+
+Key Takeaways:
+--------------
+- Random Forest provides strong baseline performance with excellent separability
+  (high ROC-AUC).
+- Threshold tuning enables explicit control over clinical risk.
+- Eliminating false negatives is achievable without retraining the model.
+- The model demonstrates how probability calibration and decision thresholds are
+  as important as the classifier itself in real-world medical systems.
+
+Role in the Project:
+--------------------
+Random Forest serves as a robust non-linear ensemble baseline in Phase 2 and
+provides a clear comparison point for SVM-based threshold tuning. Its behavior
+highlights the importance of evaluation discipline over naive accuracy metrics.
+
+These results will inform later phases involving model selection, comparison,
+and potential deployment-oriented decision policies.

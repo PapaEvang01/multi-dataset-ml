@@ -1,0 +1,23 @@
+Logistic Regression Phase 1 Results
+
+Model Description
+Algorithm: Logistic Regression
+Feature scaling: StandardScaler applied via sklearn Pipeline
+Train–test split: Stratified 70 percent training and 30 percent testing
+
+Test Set Performance
+Accuracy: 0.9883
+ROC-AUC: 0.9981
+Malignant recall (sensitivity): 0.9844
+False negatives (malignant predicted as benign): 1
+False positives (benign predicted as malignant): 1
+
+Confusion Matrix
+Rows represent true labels and columns represent predicted labels
+
+63 1
+1 106
+
+The Logistic Regression model demonstrates excellent performance on the held-out test
+set, achieving very high accuracy and near-perfect class separability. Most importantly,
+it minimizes clinically critical errors by missing only one malignant case.

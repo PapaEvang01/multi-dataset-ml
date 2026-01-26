@@ -1,0 +1,20 @@
+MODEL: LogisticRegression
+
+Test set classification report:
+              precision    recall  f1-score   support
+
+   malignant     0.9844    0.9844    0.9844        64
+      benign     0.9907    0.9907    0.9907       107
+
+    accuracy                         0.9883       171
+   macro avg     0.9875    0.9875    0.9875       171
+weighted avg     0.9883    0.9883    0.9883       171
+
+Train accuracy: 0.9874
+Test  accuracy: 0.9883
+ROC-AUC (positive class=benign [1]): 0.9981
+False negatives (malignant → predicted benign): 1
+
+Confusion Matrix (rows=true, cols=pred):
+[[ 63   1]
+ [  1 106]]

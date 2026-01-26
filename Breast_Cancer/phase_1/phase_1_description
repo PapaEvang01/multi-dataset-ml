@@ -1,73 +1,82 @@
-"""
 Breast Cancer Classification — Phase 1: Baseline Models (Tabular Data)
 
-This script implements Phase 1 of a structured, real-world machine learning pipeline
-using the Breast Cancer Wisconsin (Diagnostic) dataset. The goal of this phase is to
-establish strong, interpretable baseline models and verify the quality of the data
-and evaluation setup before moving to more complex approaches.
+This phase implements the first stage of a structured, real-world machine learning
+pipeline using the Breast Cancer Wisconsin (Diagnostic) dataset. The primary objective
+of Phase 1 is to establish strong, interpretable baseline models while validating the
+quality of the data, preprocessing steps, and evaluation methodology before moving to
+more complex approaches.
 
 Problem Description:
---------------------
-Given numerical features extracted from breast tumor biopsies (e.g., radius, texture,
-smoothness, concavity), the task is to classify each sample as either:
-    - Malignant (0)
-    - Benign (1)
+Given numerical features extracted from breast tumor biopsies, such as radius,
+texture, smoothness, and concavity, the task is to classify each sample into one of
+two categories:
+
+Malignant (0)
+
+Benign (1)
 
 Dataset:
---------
-- Source: sklearn.datasets.load_breast_cancer
-- Samples: 569
-- Features: 30 numerical features
-- Target convention (sklearn):
-    0 -> malignant
-    1 -> benign
 
-Pipeline Overview:
-------------------
-1. Data Loading & Inspection
-   - Load the dataset into pandas DataFrames
-   - Print dataset shape, feature names, and class distribution
-   - Display a small preview of the data
-   - Plot basic exploratory figures (class distribution, feature histograms)
+Source: sklearn.datasets.load_breast_cancer
 
-2. Train/Test Split
-   - Stratified split to preserve class balance
-   - 70% training set / 30% held-out test set
-   - Test set is never used during training
+Total samples: 569
 
-3. Baseline Models (Phase 1)
-   - Logistic Regression (interpretable linear baseline)
-   - k-Nearest Neighbors (simple non-parametric baseline)
-   - Feature scaling applied via sklearn Pipelines to prevent data leakage
+Total features: 30 numerical features
 
-4. Training & Evaluation
-   - Models are trained exclusively on the training set
-   - Evaluation performed on the held-out test set
-   - Metrics reported:
-       * Training accuracy
-       * Test accuracy
-       * Precision, Recall, F1-score
-       * ROC-AUC (when available)
-       * Confusion matrix
-       * False negatives (malignant predicted as benign), which are critical in
-         medical decision-support systems
+Target encoding:
+0 corresponds to malignant
+1 corresponds to benign
 
-5. Outputs
-   - Confusion matrix plots per model
-   - ROC curve comparison
-   - Train vs test accuracy comparison
-   - False negative comparison across models
-   - Summary CSV with key metrics for all models
+Phase 1 Workflow:
+Phase 1 follows a disciplined machine learning workflow designed to emphasize
+interpretability, generalization, and clinically meaningful evaluation.
+
+Exploratory Data Analysis (EDA)
+The dataset is inspected to understand its structure, feature distributions,
+and class balance. Visualizations such as class distribution plots and feature
+histograms are generated to identify scale differences, skewness, and potential
+outliers. This analysis is performed prior to model training and informs
+preprocessing decisions.
+
+Train and Test Split
+A stratified split is applied to preserve class proportions, using 70 percent
+of the data for training and 30 percent as a held-out test set. The test set is
+strictly reserved for final evaluation and is never used during training.
+
+Baseline Models
+Two classical machine learning models are evaluated:
+
+Logistic Regression, used as an interpretable linear baseline
+
+k-Nearest Neighbors (k=5), used as a simple non-parametric baseline
+Feature scaling is applied through scikit-learn Pipelines to ensure consistency
+and prevent data leakage.
+
+Training and Evaluation
+Models are trained exclusively on the training set and evaluated on the held-out
+test set. Evaluation metrics include training accuracy, test accuracy, precision,
+recall, F1-score, ROC-AUC, confusion matrices, and false negative counts. Special
+emphasis is placed on false negatives, where malignant cases are incorrectly
+classified as benign, as this represents the most critical error in a medical
+screening context.
+
+Results and Model Comparison
+Phase 1 produces dataset-level exploratory plots, model-specific evaluation
+outputs, and general comparison visualizations such as train versus test accuracy,
+ROC curves, and false negative comparisons. A summary CSV file consolidates the
+key metrics for all evaluated models.
+
+Phase 1 Outcome:
+Both baseline models achieve high overall performance. However, Logistic Regression
+demonstrates superior generalization and significantly fewer false negatives compared
+to k-Nearest Neighbors. Given the clinical importance of minimizing missed malignant
+cases, Logistic Regression is selected as the strongest baseline model for Phase 1.
 
 Design Philosophy:
-------------------
-This phase prioritizes correctness, interpretability, and evaluation discipline
-over raw performance. The results of Phase 1 serve as a validated baseline and
-reference point for Phase 2 (more advanced models and tuning).
+Phase 1 prioritizes correctness, interpretability, and rigorous evaluation over raw
+performance. The results serve as a validated baseline and reference point for Phase 2,
+which will explore more advanced models and optimization strategies.
 
 Author:
--------
 Evangelos Papaioannou
-Electrical & Computer Engineering (Integrated Master’s)
-Specialization: Artificial Intelligence & Machine Learning
-"""
+Electrical and Computer Engineering (Integrated Master’s)

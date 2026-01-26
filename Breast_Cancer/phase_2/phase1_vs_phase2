@@ -1,0 +1,136 @@
+Breast Cancer Classification — Phase 1 vs Phase 2 Comparison
+(Methodology & Results)
+
+This document compares Phase 1 and Phase 2 of the breast cancer classification
+project, highlighting methodological differences, modeling choices, and their
+impact on evaluation results. The comparison demonstrates the evolution from
+baseline modeling to clinically informed decision-making.
+
+------------------------------------------------------------
+Phase 1 — Baseline Models
+------------------------------------------------------------
+
+Objective:
+----------
+The goal of Phase 1 was to establish reliable, interpretable baseline models and
+validate the data pipeline, evaluation setup, and metrics before moving to more
+advanced approaches.
+
+Methodology:
+------------
+- Models:
+    * Logistic Regression
+    * k-Nearest Neighbors (k=5)
+
+- Input:
+    * 30 numerical features extracted from biopsy images
+    * Standardized feature scaling where required
+
+- Training:
+    * Stratified 70% training / 30% test split
+    * Models trained only on the training set
+    * No hyperparameter tuning
+
+- Evaluation:
+    * Test accuracy
+    * Precision, recall, F1-score
+    * ROC-AUC
+    * Confusion matrices
+    * False negative counts
+
+Key Characteristics:
+--------------------
+- Emphasis on simplicity and interpretability
+- Default classification threshold (0.5)
+- Accuracy used as a primary indicator, with attention to false negatives
+
+Results (Summary):
+------------------
+- Both models achieved high test accuracy (>95%)
+- Logistic Regression showed stronger generalization than KNN
+- Non-zero false negatives were observed, highlighting the need for
+  medically informed evaluation beyond accuracy
+
+------------------------------------------------------------
+Phase 2 — Advanced Models & Threshold Tuning
+------------------------------------------------------------
+
+Objective:
+----------
+Phase 2 focused on improving model expressiveness and aligning classification
+decisions with clinical priorities, particularly the reduction of false negatives.
+
+Methodology:
+------------
+- Models:
+    * Support Vector Machine (RBF kernel)
+    * Random Forest (100 trees, max depth=3, max features=5, no bootstrapping)
+
+- Input:
+    * Same dataset and features as Phase 1
+    * Identical train/test split to ensure fair comparison
+
+- Training:
+    * Models trained on the training set only
+    * Probability estimates enabled
+
+- Threshold Tuning:
+    * Predicted probabilities P(malignant) analyzed across multiple thresholds
+    * Evaluation focused on:
+        - False negatives
+        - False positives
+        - Accuracy trade-offs
+
+- Evaluation:
+    * Train accuracy
+    * Test accuracy (default threshold)
+    * Test accuracy (tuned threshold)
+    * Confusion matrices
+    * FN / FP vs threshold curves
+    * Accuracy vs threshold curves
+
+Key Characteristics:
+--------------------
+- Emphasis on decision-level control rather than raw model accuracy
+- Explicit modeling of medical risk
+- Acceptance of reduced accuracy to minimize false negatives
+
+Results (Summary):
+------------------
+- Both SVM and Random Forest achieved near-perfect training accuracy
+- Default threshold performance remained strong but allowed false negatives
+- Threshold tuning successfully reduced or eliminated false negatives
+- Increased false positives observed as an expected and acceptable trade-off
+- Demonstrated the importance of threshold selection in safety-critical domains
+
+------------------------------------------------------------
+Comparative Analysis
+------------------------------------------------------------
+
+Methodology Comparison:
+-----------------------
+Phase 1 validated the learning pipeline and established reference performance
+using simple, interpretable models. Phase 2 extended this foundation by introducing
+non-linear and ensemble models and by incorporating probability-based decision rules.
+
+Result Comparison:
+------------------
+While Phase 1 achieved strong accuracy, it treated all classification errors equally.
+Phase 2 reframed evaluation to reflect real-world clinical costs, prioritizing patient
+safety over nominal accuracy.
+
+Key Takeaways:
+--------------
+- High accuracy alone is insufficient for medical ML systems
+- Decision thresholds play a critical role in model behavior
+- Model evaluation must be guided by domain-specific risk
+- Phase 2 models provide safer decision boundaries despite modest accuracy trade-offs
+
+Conclusion:
+-----------
+The progression from Phase 1 to Phase 2 illustrates a shift from traditional
+machine learning benchmarking to responsible, application-aware modeling.
+This structured approach lays a solid foundation for future phases involving
+interpretability, calibration, and deployment-oriented analysis.
+
+

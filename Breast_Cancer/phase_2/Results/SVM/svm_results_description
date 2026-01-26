@@ -1,0 +1,88 @@
+SVM Results — Phase 2 (Threshold Tuning & Medical Trade-offs)
+=============================================================
+
+This file summarizes the results of the Support Vector Machine (SVM) model
+with an RBF kernel evaluated in Phase 2 of the project. The analysis focuses
+not only on predictive performance, but also on clinically relevant decision
+trade-offs achieved through threshold tuning.
+
+Model Configuration
+-------------------
+- Model: Support Vector Machine (SVM)
+- Kernel: Radial Basis Function (RBF)
+- Input: Standardized numerical features (via StandardScaler)
+- Output: Class probabilities for malignant (0) and benign (1)
+
+Baseline Evaluation (Default Threshold = 0.5)
+---------------------------------------------
+At the default decision threshold (P(malignant) ≥ 0.5), the SVM model achieves
+very strong overall performance on the test set.
+
+Key results:
+- Test accuracy: 0.9766
+- ROC-AUC (positive class = benign): 0.9978
+- Malignant recall (sensitivity): 0.9688
+- False negatives (malignant → benign): 2
+- False positives (benign → malignant): 2
+
+The confusion matrix at threshold 0.5 shows that the model is well-balanced,
+with only a small number of misclassifications in both directions. However,
+even a small number of false negatives is considered critical in a medical
+screening context.
+
+Threshold Tuning (Medical Discipline)
+-------------------------------------
+To reduce the risk of missing malignant cases, a threshold tuning procedure
+was applied. Instead of using the default 0.5 threshold, the decision boundary
+was shifted to prioritize malignant detection.
+
+The tuning objective followed this strict order:
+1. Minimize false negatives (malignant → benign)
+2. Minimize false positives (benign → malignant)
+3. Preserve overall accuracy where possible
+
+Based on this criterion, the selected threshold was:
+- Tuned threshold on P(malignant): 0.15
+
+Tuned Evaluation Results
+-----------------------
+After applying the tuned threshold, the model achieves perfect malignant
+detection on the test set.
+
+Key results:
+- Test accuracy: 0.9357
+- Malignant recall (sensitivity): 1.0000
+- False negatives (malignant → benign): 0
+- False positives (benign → malignant): 11
+- Benign specificity: 0.8972
+
+This confirms the expected and intentional trade-off: false negatives are
+completely eliminated at the cost of an increased number of false positives.
+Such behavior is often preferable in medical decision-support systems, where
+missing a malignant case is far more costly than raising additional alerts.
+
+Interpretation of Plots
+-----------------------
+- Confusion matrices (default vs tuned):
+  Visualize how threshold tuning shifts errors from false negatives to
+  false positives.
+
+- FN/FP vs threshold plot:
+  Demonstrates the inverse relationship between false negatives and false
+  positives as the threshold changes.
+
+- Accuracy vs threshold plot:
+  Shows that accuracy remains relatively high across a range of thresholds,
+  allowing safer operating points without catastrophic performance loss.
+
+Conclusion
+----------
+The SVM model demonstrates excellent class separability on this dataset.
+Threshold tuning transforms it from a high-accuracy classifier into a
+risk-aware medical decision-support tool. This experiment highlights that
+model evaluation should not rely solely on accuracy, but must consider
+application-specific costs of different error types.
+
+The SVM results from Phase 2 provide a strong reference point for comparing
+against other advanced models, such as Random Forest, under safety-oriented
+evaluation criteria.

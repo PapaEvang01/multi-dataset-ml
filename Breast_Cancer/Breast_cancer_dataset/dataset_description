@@ -1,7 +1,11 @@
 Dataset Name: Breast Cancer Wisconsin (Diagnostic)
 
 Description:
-The Breast Cancer Wisconsin (Diagnostic) dataset contains 569 biopsy samples described by 30 numerical features representing geometric and textural properties of cell nuclei. These measurements are derived from digitized images of fine needle aspirate (FNA) biopsies and include characteristics such as radius, perimeter, smoothness, concavity, and symmetry.
+The Breast Cancer Wisconsin (Diagnostic) dataset contains 569 biopsy 
+samples described by 30 numerical features representing geometric and 
+textural properties of cell nuclei. These measurements are derived from 
+digitized images of fine needle aspirate (FNA) biopsies and include characteristics
+such as radius, perimeter, smoothness, concavity, and symmetry.
 
 Classification Task:
 Binary classification of tumors into malignant (0) and benign (1).
@@ -9,8 +13,13 @@ Binary classification of tumors into malignant (0) and benign (1).
 Class Distribution:
 
 Malignant: ~37%
-
 Benign: ~63%
 
 Notes:
-The dataset presents a moderate class imbalance, making accuracy alone insufficient for reliable evaluation. Clinically critical errors, particularly false negatives (malignant cases predicted as benign), must be carefully analyzed. Due to its clean structure, absence of missing values, and medically meaningful features, this dataset is well suited for benchmarking classical machine learning models in a healthcare-oriented context.
+
+The dataset presents a moderate class imbalance, making accuracy alone 
+insufficient for reliable evaluation. Clinically critical errors, particularly 
+false negatives (malignant cases predicted as benign), must be carefully analyzed.
+Due to its clean structure, absence of missing values, and medically meaningful features, 
+this dataset is well suited for benchmarking classical machine learning models in a 
+healthcare-oriented context.

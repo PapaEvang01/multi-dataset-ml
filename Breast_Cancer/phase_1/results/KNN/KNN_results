@@ -1,0 +1,24 @@
+k-Nearest Neighbors (KNN, k=5) — Phase 1 Results
+------------------------------------------------
+
+Model:
+- Algorithm: k-Nearest Neighbors (k=5)
+- Scaling: StandardScaler applied via sklearn Pipeline
+- Split: Stratified 70% train / 30% test
+
+Test Set Performance:
+- Accuracy: 0.9591
+- ROC-AUC: 0.9827
+- Malignant recall (sensitivity): 0.8906
+- False negatives (malignant → benign): 7
+- False positives (benign → malignant): 0
+
+Confusion Matrix (rows=true, cols=pred):
+[[57  7]
+ [ 0 107]]
+
+Interpretation:
+The model achieves high overall performance and perfect specificity (no benign cases
+flagged as malignant). However, it misses 7 malignant cases, which is a clinically
+critical error type. This baseline is used as a reference point for comparing against
+other models in Phase 1 and more advanced models in Phase 2.

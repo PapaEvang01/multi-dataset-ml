@@ -17,7 +17,6 @@ Confusion Matrix (rows=true, cols=pred):
 [[57  7]
  [ 0 107]]
 
-Interpretation:
 The model achieves high overall performance and perfect specificity (no benign cases
 flagged as malignant). However, it misses 7 malignant cases, which is a clinically
 critical error type. This baseline is used as a reference point for comparing against

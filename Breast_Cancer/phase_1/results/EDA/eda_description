@@ -1,0 +1,26 @@
+Exploratory Data Analysis (EDA)
+------------------------------
+
+This folder contains exploratory data analysis visualizations created to
+understand the structure and properties of the Breast Cancer Wisconsin
+(Diagnostic) dataset prior to model training.
+
+Contents:
+
+- class_distribution.png
+  Shows the distribution of malignant and benign samples, highlighting
+  the moderate class imbalance in the dataset.
+
+- hist_mean_radius.png
+- hist_mean_perimeter.png
+- hist_mean_area.png
+- hist_mean_texture.png
+- hist_mean_smoothness.png
+  Histograms illustrating the distribution of selected numerical features.
+  These plots are used to analyze feature ranges, variability, skewness,
+  and the presence of outliers.
+
+Notes:
+EDA is performed before model training and does not depend on model
+predictions. The insights gained from this analysis inform preprocessing
+decisions such as feature scaling and model selection.

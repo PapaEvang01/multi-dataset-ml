@@ -24,7 +24,16 @@ Contents:
   Summary table containing key evaluation metrics for all Phase 1 models,
   including accuracy, ROC-AUC, and false negatives.
 
-These results demonstrate that Logistic Regression achieves superior
-performance in terms of sensitivity and overall separability while
-maintaining strong generalization. Based on these metrics, Logistic
-Regression is selected as the strongest baseline model for Phase 1.
+The Phase 1 evaluation demonstrates that both baseline models achieve high 
+overall performance on the Breast Cancer Wisconsin (Diagnostic) dataset. 
+However, clear differences emerge when clinically relevant metrics are considered. 
+Logistic Regression shows excellent generalization, with nearly identical training 
+and test accuracy, indicating stable and reliable behavior. 
+It also achieves near-perfect class separability, as reflected by a very high ROC-AUC score.
+
+Most importantly, Logistic Regression minimizes false negatives,
+ misclassifying only one malignant case as benign, whereas the KNN model 
+ misses seven malignant cases. Given that false negatives represent the 
+ most critical error in a medical screening context, this difference is decisive. 
+ Based on its superior sensitivity, strong generalization, and interpretability, 
+ Logistic Regression is selected as the strongest baseline model for Phase 1.

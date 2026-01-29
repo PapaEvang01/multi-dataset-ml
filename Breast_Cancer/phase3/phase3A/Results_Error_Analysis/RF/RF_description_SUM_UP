@@ -1,0 +1,122 @@
+Breast Cancer Classification — Phase 3A  
+Random Forest (RF) Error Analysis Results
+
+Overview
+--------
+This section presents the Phase 3A error analysis for the Random Forest model.
+The objective is not to optimize accuracy, but to deeply understand *how* and
+*why* the model makes mistakes, with special emphasis on clinically critical
+errors.
+
+As in Phase 2, Random Forest predictions are evaluated under:
+  - the default decision rule (implicit threshold ≈ 0.5)
+  - a tuned medical decision rule, where the threshold on P(malignant) is
+    optimized to eliminate false negatives (FN)
+
+Label convention:
+  0 = malignant
+  1 = benign
+
+
+Default vs Tuned Decision Rule
+------------------------------
+Under the default threshold, the Random Forest model achieves reasonable overall
+accuracy, but still produces false negatives — malignant tumors incorrectly
+classified as benign. In a medical context, these errors are unacceptable.
+
+After threshold tuning:
+  - False Negatives (FN): reduced from 6 → 0
+  - False Positives (FP): increased from 6 → 14
+  - Overall accuracy decreases slightly
+
+This trade-off is intentional and clinically motivated: the tuned model prioritizes
+sensitivity (catching all malignant cases) at the expense of more false alarms.
+
+
+FN / FP Comparison Plot
+-----------------------
+The FN/FP bar plot clearly visualizes this trade-off:
+  - Default model: balanced FN and FP, but dangerous missed malignancies
+  - Tuned model: zero FN, higher FP count
+
+This confirms that threshold tuning effectively reshapes model behavior without
+changing the underlying classifier.
+
+
+P(malignant) Distribution Analysis
+----------------------------------
+The probability histogram shows the distribution of P(malignant) values produced
+by the Random Forest model on the test set.
+
+Key observations:
+  - The tuned threshold (≈ 0.13) lies far below the default 0.5
+  - Mean and median probabilities are well above the tuned threshold
+  - Many benign samples receive moderate malignancy probabilities
+
+This explains the increased number of false positives after tuning: the Random
+Forest model assigns non-negligible malignancy probability to several benign
+samples that lie close to the decision boundary.
+
+
+False Positive Feature Shift
+----------------------------
+The feature-shift plot focuses on the feature:
+  - mean concave points
+
+False positives cluster toward higher values of this feature compared to the
+overall test distribution. This indicates that benign tumors with stronger
+concavity-related characteristics are systematically misclassified as malignant.
+
+This is not random noise, but a meaningful pattern tied to the feature space.
+
+
+Borderline Cases
+----------------
+Borderline cases are defined as samples whose P(malignant) lies within ±0.05 of
+the tuned threshold.
+
+These cases:
+  - sit directly on the decision boundary
+  - often share overlapping feature values between benign and malignant classes
+  - represent diagnostically ambiguous tumors
+
+Such cases are prime candidates for:
+  - secondary screening
+  - additional medical tests
+  - human-in-the-loop decision making
+
+
+Hard Cases Summary
+------------------
+The union of:
+  - false positives
+  - borderline cases
+represents the most challenging subset of the test data.
+
+These samples highlight the intrinsic limits of purely tabular models and motivate:
+  - explainability analysis (Phase 3B)
+  - richer data modalities
+  - or multi-stage clinical decision systems
+
+
+Clinical Interpretation
+-----------------------
+The Random Forest model demonstrates strong recall after threshold tuning, fully
+eliminating false negatives. However, this comes at the cost of increased false
+positives, which may lead to unnecessary follow-up procedures.
+
+From a medical AI perspective, this behavior is acceptable — and often preferred —
+as long as the trade-off is explicitly controlled and communicated.
+
+Phase 3A confirms that:
+  - threshold tuning is a powerful safety mechanism
+  - Random Forest errors are structured, not random
+  - careful error analysis is essential before deployment
+
+
+Next Step
+---------
+Phase 3B will focus on *why* the Random Forest makes these decisions, using
+model explainability techniques (e.g., feature importance, local explanations),
+to further support trust and clinical interpretability.
+

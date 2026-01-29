@@ -1,0 +1,32 @@
+Error Analysis Summary — RandomForest
+======================================================================
+
+Label convention:
+  0 = malignant
+  1 = benign
+
+Default decision rule (threshold ~ 0.5):
+  Accuracy: 0.9298
+  FN (malignant -> benign): 6
+  FP (benign -> malignant): 6
+  Confusion matrix:
+[[ 58   6]
+ [  6 101]]
+
+Tuned decision rule (medical objective: minimize FN first):
+  Tuned threshold on P(malignant): 0.130
+  Accuracy: 0.9181
+  FN (malignant -> benign): 0
+  FP (benign -> malignant): 14
+  Confusion matrix:
+[[64  0]
+ [14 93]]
+
+Borderline cases:
+  Definition: |P(malignant) - tuned_threshold| <= 0.05
+  Count: 16
+
+Notes:
+- False negatives represent missed malignant cases and are clinically critical.
+- Threshold tuning typically reduces FN at the cost of increased FP.
+- Borderline cases lie near the decision boundary and are often ambiguous.

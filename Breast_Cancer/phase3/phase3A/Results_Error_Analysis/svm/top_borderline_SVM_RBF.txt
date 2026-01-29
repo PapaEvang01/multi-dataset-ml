@@ -1,0 +1,17 @@
+Top Borderline Cases (closest to tuned threshold)
+===========================================================================
+
+Showing top 10 cases by smallest |P(malignant) - threshold|.
+Columns include probability + a small subset of features (first 10).
+
+true_name pred_name  p_malignant  threshold_used  abs_dist_to_threshold  mean radius  mean texture  mean perimeter  mean area  mean smoothness  mean compactness  mean concavity  mean concave points  mean symmetry  mean fractal dimension
+   benign    benign     0.147306            0.15               0.002694        14.42         16.54           94.15      641.2          0.09751           0.11390         0.08007              0.04223         0.1912                 0.06412
+malignant malignant     0.153813            0.15               0.003813        13.80         15.79           90.43      584.1          0.10070           0.12800         0.07789              0.05069         0.1662                 0.06566
+   benign    benign     0.138797            0.15               0.011203        16.17         16.07          106.30      788.5          0.09880           0.14380         0.06651              0.05397         0.1990                 0.06572
+   benign malignant     0.162237            0.15               0.012237        12.65         18.17           82.69      485.6          0.10760           0.13340         0.08017              0.05074         0.1641                 0.06854
+   benign    benign     0.134411            0.15               0.015589        11.69         24.44           76.37      406.4          0.12360           0.15520         0.04515              0.04531         0.2131                 0.07405
+   benign malignant     0.180190            0.15               0.030190        15.10         16.39           99.58      674.5          0.11500           0.18070         0.11380              0.08534         0.2001                 0.06467
+   benign malignant     0.180640            0.15               0.030640        14.74         25.42           94.70      668.6          0.08275           0.07214         0.04105              0.03027         0.1840                 0.05680
+   benign    benign     0.115496            0.15               0.034504        16.30         15.70          104.70      819.8          0.09427           0.06712         0.05526              0.04563         0.1711                 0.05657
+   benign    benign     0.110856            0.15               0.039144        14.80         17.66           95.88      674.8          0.09179           0.08890         0.04069              0.02260         0.1893                 0.05886
+   benign    benign     0.106055            0.15               0.043945        16.14         14.86          104.30      800.0          0.09495           0.08501         0.05500              0.04528         0.1735                 0.05875

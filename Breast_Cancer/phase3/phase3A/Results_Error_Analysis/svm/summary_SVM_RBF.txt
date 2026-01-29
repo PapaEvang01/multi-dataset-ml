@@ -1,0 +1,32 @@
+Error Analysis Summary — SVM_RBF
+======================================================================
+
+Label convention:
+  0 = malignant
+  1 = benign
+
+Default decision rule (threshold ~ 0.5):
+  Accuracy: 0.9766
+  FN (malignant -> benign): 2
+  FP (benign -> malignant): 2
+  Confusion matrix:
+[[ 62   2]
+ [  2 105]]
+
+Tuned decision rule (medical objective: minimize FN first):
+  Tuned threshold on P(malignant): 0.150
+  Accuracy: 0.9357
+  FN (malignant -> benign): 0
+  FP (benign -> malignant): 11
+  Confusion matrix:
+[[64  0]
+ [11 96]]
+
+Borderline cases:
+  Definition: |P(malignant) - tuned_threshold| <= 0.05
+  Count: 10
+
+Notes:
+- False negatives represent missed malignant cases and are clinically critical.
+- Threshold tuning typically reduces FN at the cost of increased FP.
+- Borderline cases lie near the decision boundary and are often ambiguous.

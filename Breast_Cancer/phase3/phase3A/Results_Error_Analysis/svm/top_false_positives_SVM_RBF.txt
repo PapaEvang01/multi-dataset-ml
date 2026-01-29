@@ -1,0 +1,17 @@
+Top False Positives (most confident benign -> predicted malignant)
+===========================================================================
+
+Showing top 10 cases by highest P(malignant).
+Columns include probability + a small subset of features (first 10).
+
+true_name pred_name  p_malignant  abs_dist_to_threshold  mean radius  mean texture  mean perimeter  mean area  mean smoothness  mean compactness  mean concavity  mean concave points  mean symmetry  mean fractal dimension
+   benign malignant     0.658954               0.508954       14.470         24.99           95.81      656.4          0.08837           0.12300         0.10090              0.03890         0.1872                 0.06341
+   benign malignant     0.631663               0.481663       13.460         18.75           87.44      551.1          0.10750           0.11380         0.04201              0.03152         0.1723                 0.06317
+   benign malignant     0.397564               0.247564       16.500         18.29          106.60      838.1          0.09686           0.08468         0.05862              0.04835         0.1495                 0.05593
+   benign malignant     0.378101               0.228101       14.960         19.10           97.03      687.3          0.08992           0.09823         0.05940              0.04819         0.1879                 0.05852
+   benign malignant     0.330800               0.180800        9.720         18.22           60.73      288.1          0.06950           0.02344         0.00000              0.00000         0.1653                 0.06447
+   benign malignant     0.306774               0.156774        9.268         12.87           61.49      248.7          0.16340           0.22390         0.09730              0.05252         0.2378                 0.09502
+   benign malignant     0.214569               0.064569       15.730         11.28          102.80      747.2          0.10430           0.12990         0.11910              0.06211         0.1784                 0.06259
+   benign malignant     0.204401               0.054401       11.260         19.96           73.72      394.1          0.08020           0.11810         0.09274              0.05588         0.2595                 0.06233
+   benign malignant     0.180640               0.030640       14.740         25.42           94.70      668.6          0.08275           0.07214         0.04105              0.03027         0.1840                 0.05680
+   benign malignant     0.180190               0.030190       15.100         16.39           99.58      674.5          0.11500           0.18070         0.11380              0.08534         0.2001                 0.06467

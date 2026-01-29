@@ -1,0 +1,99 @@
+SVM — Phase 3A Results: Error Analysis (Threshold-Tuned Model)
+
+Overview
+--------
+This section presents a detailed error analysis of the SVM (RBF kernel) model
+from Phase 2, using the tuned decision threshold selected with a medical
+objective (minimize false negatives first).
+
+Rather than focusing on accuracy alone, Phase 3A investigates *where* and *why*
+the model makes mistakes, with emphasis on clinically critical errors and
+ambiguous cases near the decision boundary.
+
+Model & Decision Rules
+---------------------
+- Model: Support Vector Machine (RBF kernel)
+- Dataset: Breast Cancer Wisconsin (Diagnostic)
+- Test set size: 171 samples
+- Label convention:
+    0 = malignant
+    1 = benign
+
+Two decision rules are compared:
+1) Default threshold (~0.5)
+2) Tuned threshold = 0.15 (chosen to eliminate false negatives)
+
+Performance Comparison
+----------------------
+Default decision rule:
+- Accuracy: 97.66%
+- False Negatives (malignant → benign): 2
+- False Positives (benign → malignant): 2
+
+Tuned decision rule (threshold = 0.15):
+- Accuracy: 93.57%
+- False Negatives (malignant → benign): 0
+- False Positives (benign → malignant): 11
+
+This confirms the expected medical trade-off:
+all malignant cases are correctly identified (FN = 0),
+at the cost of increased false alarms (FP ↑).
+
+This behavior is acceptable — and often preferred — in medical screening
+contexts, where missing a malignant case is more dangerous than over-referral.
+
+Probability Distribution Analysis
+---------------------------------
+The histogram of P(malignant) reveals a strongly bimodal distribution:
+- Most benign samples have very low predicted probability
+- Most malignant samples cluster near P(malignant) ≈ 1
+
+The tuned threshold (0.15) lies well below the mean probability and slightly
+above the median, indicating a deliberately conservative decision boundary.
+This confirms that threshold tuning acts as a *safety margin* rather than
+arbitrary adjustment.
+
+False Positive Feature Shift
+----------------------------
+The feature shift plot for false positives (using “mean concave points”)
+shows that false positives tend to concentrate in intermediate feature ranges,
+overlapping with malignant-like morphology.
+
+This suggests that these errors are not random noise, but structurally
+ambiguous cases that resemble malignant patterns in specific geometric features.
+
+Borderline Case Analysis
+------------------------
+Borderline cases are defined as samples where:
+|P(malignant) − tuned_threshold| ≤ 0.05
+
+For the SVM model:
+- Borderline cases: 10
+- These samples lie near the decision boundary and represent inherently
+  ambiguous tumors.
+
+Inspection of the top borderline cases shows that both benign and malignant
+samples appear in this region, reinforcing that uncertainty is data-driven
+rather than model failure.
+
+Hard Case Summary
+-----------------
+Hard cases include:
+- False Positives
+- False Negatives (none after tuning)
+- Borderline samples
+
+In total, 21 hard cases were identified for SVM, representing the most
+informative subset for further clinical inspection, expert review, or
+model explainability analysis.
+
+Key Takeaways
+-------------
+- Threshold tuning successfully eliminated all false negatives for SVM.
+- Increased false positives reflect a controlled and explainable trade-off.
+- Errors concentrate in biologically plausible, overlapping feature regions.
+- Borderline cases highlight intrinsic ambiguity in the dataset.
+
+This analysis demonstrates that the SVM model behaves consistently with
+medical risk priorities and provides a transparent foundation for
+Phase 3B (model explainability and feature-level interpretation).

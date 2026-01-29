@@ -1,0 +1,140 @@
+Breast Cancer Classification — Phase 3A  
+Comparative Error Analysis: SVM (RBF) vs Random Forest
+
+Purpose of the Comparison
+-------------------------
+Phase 3A moves beyond model-level analysis and directly compares how two strong
+classifiers — SVM with RBF kernel and Random Forest — behave under a clinically
+motivated decision rule.
+
+Both models are evaluated using:
+  - identical data splits
+  - identical threshold-tuning logic
+  - the same medical objective: eliminate false negatives (FN)
+
+The goal is not to declare a “winner” based on accuracy, but to understand
+differences in *error structure*, *decision confidence*, and *clinical behavior*.
+
+
+Baseline Behavior (Default Threshold)
+-------------------------------------
+Under the default decision rule (≈ 0.5 threshold):
+
+SVM (RBF):
+  - Higher overall accuracy
+  - Very low FN and FP counts
+  - Sharper separation between malignant and benign cases
+
+Random Forest:
+  - Slightly lower accuracy
+  - Higher FN and FP counts
+  - More diffuse probability estimates
+
+At this stage, SVM appears more conservative and better calibrated, while
+Random Forest shows greater uncertainty near the decision boundary.
+
+
+Effect of Threshold Tuning (Medical Objective)
+----------------------------------------------
+After applying threshold tuning to minimize false negatives:
+
+Both models achieve:
+  - FN = 0 (no malignant cases missed)
+
+However, the cost differs significantly.
+
+SVM (RBF):
+  - Moderate increase in false positives
+  - Accuracy decreases but remains relatively high
+  - Decision boundary shifts, but remains compact
+
+Random Forest:
+  - Larger increase in false positives
+  - More aggressive threshold shift (lower threshold)
+  - Wider region of uncertainty around the boundary
+
+This indicates that SVM adapts to medical constraints with less collateral damage,
+while Random Forest requires a stronger relaxation of its decision rule.
+
+
+Probability Distribution Differences
+------------------------------------
+The P(malignant) histograms reveal fundamental differences in model confidence.
+
+SVM (RBF):
+  - Produces more extreme probabilities (near 0 or near 1)
+  - Clearer bimodal structure
+  - Tuned threshold lies in a relatively sparse region
+
+Random Forest:
+  - Produces many mid-range probabilities
+  - Broader overlap between benign and malignant samples
+  - Tuned threshold cuts through a dense probability region
+
+As a result, Random Forest converts more benign samples into false positives when
+the threshold is lowered.
+
+
+False Positive Structure
+------------------------
+Feature-shift analysis (e.g., mean concave points) shows:
+
+SVM (RBF):
+  - False positives are fewer and more tightly clustered
+  - Errors tend to occur near genuine borderline morphology
+
+Random Forest:
+  - False positives are more numerous
+  - Benign samples with moderately malignant-like features are over-flagged
+  - Indicates higher sensitivity to certain feature patterns
+
+This suggests that Random Forest is more prone to “pattern amplification,”
+flagging benign cases that partially resemble malignant profiles.
+
+
+Borderline Cases and Ambiguity
+------------------------------
+Borderline analysis highlights how each model handles uncertainty.
+
+SVM (RBF):
+  - Fewer borderline cases
+  - Narrower ambiguity zone
+  - Decision boundary is more sharply defined
+
+Random Forest:
+  - Larger borderline set
+  - Wider uncertainty region
+  - Reflects ensemble averaging behavior
+
+From a clinical perspective, Random Forest produces more cases that would require
+secondary screening or human review.
+
+
+Clinical Interpretation
+-----------------------
+Both models can be made clinically safe by eliminating false negatives, but their
+error profiles differ:
+
+SVM (RBF):
+  - Better calibrated
+  - Lower false-positive burden
+  - More suitable for high-confidence automated screening
+
+Random Forest:
+  - More cautious under tuning
+  - Higher false-positive rate
+  - Better suited for decision-support systems with human oversight
+
+Neither model is “wrong” — they reflect different risk-management philosophies.
+
+
+Key Takeaway
+------------
+Phase 3A demonstrates that model selection in medical AI cannot rely on accuracy
+alone. When medical constraints are imposed:
+
+  - SVM offers sharper, more stable decision boundaries
+  - Random Forest offers robustness but at the cost of over-alerting
+
+This comparison motivates Phase 3B, where explainability techniques are required
+to justify and interpret these behaviors before any real-world deployment.

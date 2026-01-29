@@ -1,0 +1,70 @@
+PHASE 3 — ERROR ANALYSIS & MODEL TRUST (Medical ML Focus)
+=========================================================
+
+Phase 3 shifts the focus from model performance to model trust.
+Instead of asking “How accurate is the model?”, this phase asks
+“Where does the model fail, how dangerous are those failures, and
+can its decisions be justified in a medical setting?”
+
+This phase builds directly on Phase 2 and reuses the same models,
+training setup, and threshold-tuning logic to ensure full
+reproducibility. No model behavior is changed — only analyzed.
+
+----------------------------------------------------------------
+Phase 3A — Error Analysis (What fails, and where)
+----------------------------------------------------------------
+
+Phase 3A investigates model errors at the sample level, with special
+attention to clinically critical cases.
+
+The analysis focuses on three categories:
+
+1) False Negatives (FN)
+   Malignant tumors incorrectly predicted as benign.
+   These are the most dangerous errors in a medical screening context.
+
+2) False Positives (FP)
+   Benign tumors predicted as malignant.
+   While less critical than FN, these increase unnecessary follow-up
+   and patient anxiety.
+
+3) Borderline cases
+   Samples with predicted malignancy probability very close to the
+   tuned decision threshold. These represent ambiguous cases where
+   small changes in the decision rule can flip the outcome.
+
+Rather than relying only on aggregate metrics, Phase 3A extracts and
+stores the exact samples involved in each error category. This allows
+direct inspection of difficult cases and realistic evaluation of
+model behavior.
+
+To improve interpretability, the phase also:
+- Highlights the most confident false positives
+- Highlights the most ambiguous borderline cases
+- Visualizes probability distributions relative to the tuned threshold
+- Compares false negatives and false positives before and after
+  threshold tuning
+
+All outputs are saved per model under:
+results_phase3/error_analysis/<MODEL_NAME>/
+
+----------------------------------------------------------------
+Why Phase 3 matters
+----------------------------------------------------------------
+
+In medical machine learning, high accuracy alone is not sufficient.
+Understanding *how*, *where*, and *why* models fail is essential for
+safe deployment and clinical decision support.
+
+Phase 3A provides the foundation for Phase 3B, where individual model
+decisions will be explained in terms of feature contributions and
+decision logic.
+
+----------------------------------------------------------------
+Next: Phase 3B — Model Explainability
+----------------------------------------------------------------
+
+Phase 3B will focus on explaining model decisions for the hardest and
+most clinically relevant cases identified in Phase 3A. This includes
+feature importance analysis and local explanations for false
+negatives, false positives, and borderline samples.

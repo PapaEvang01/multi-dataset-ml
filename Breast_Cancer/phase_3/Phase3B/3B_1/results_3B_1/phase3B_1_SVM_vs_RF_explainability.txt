@@ -1,0 +1,101 @@
+Breast Cancer Classification — Phase 3B.1
+Explainability Comparison: SVM (RBF) vs Random Forest
+
+Overview
+--------
+This section compares the global explainability behavior of two models:
+  - Support Vector Machine (RBF kernel)
+  - Random Forest
+
+Both models were analyzed using Permutation Feature Importance under two
+objectives:
+  1) Overall accuracy
+  2) Malignant recall (sensitivity)
+
+The goal is to understand not only which features matter, but how each model
+uses them differently.
+
+--------------------------------------------------
+1. Feature Usage Pattern
+--------------------------------------------------
+
+SVM (RBF):
+- Relies on a broad set of features.
+- Strong importance assigned to:
+    • Texture-related features
+    • Error-based features (radius error, area error, perimeter error)
+    • Concavity-related features
+- Importance is distributed across many variables.
+
+Random Forest:
+- Focuses on a smaller, more compact feature set.
+- Dominated by:
+    • worst area
+    • worst concave points
+    • worst perimeter / radius (secondary)
+- Importance is more concentrated on extreme shape measurements.
+
+Interpretation:
+SVM captures subtle, distributed patterns,
+while Random Forest emphasizes dominant geometric characteristics.
+
+--------------------------------------------------
+2. Accuracy vs Malignant Recall Sensitivity
+--------------------------------------------------
+
+SVM (RBF):
+- Shows a clear shift in feature importance when optimizing for malignant recall.
+- Texture, concavity, and smoothness become more dominant for recall.
+- Indicates sensitivity to fine-grained morphological cues.
+
+Random Forest:
+- Feature ranking remains relatively stable between accuracy and recall.
+- worst concave points consistently dominates malignant recall.
+- Indicates a more rigid decision structure.
+
+Interpretation:
+SVM adapts feature usage based on the clinical objective,
+while Random Forest remains more rule-driven.
+
+--------------------------------------------------
+3. Clinical Interpretability
+--------------------------------------------------
+
+SVM (RBF):
+- Uses clinically meaningful features but in a more abstract combination.
+- Harder to explain individual decisions.
+- Better at capturing nuanced tumor characteristics.
+
+Random Forest:
+- Highly interpretable feature dominance.
+- Clear linkage between decisions and known cancer indicators.
+- Easier to explain to clinicians.
+
+--------------------------------------------------
+4. Robustness and Trust
+--------------------------------------------------
+
+SVM (RBF):
+- Sensitive to measurement variability (error features).
+- May generalize better on complex cases.
+- Requires additional local explanation tools for trust.
+
+Random Forest:
+- Robust, stable feature reliance.
+- Decisions easier to justify.
+- Slightly less flexible in borderline scenarios.
+
+--------------------------------------------------
+Final Takeaway
+--------------------------------------------------
+
+- Random Forest behaves as a conservative, rule-based model relying on
+  strong geometric indicators of malignancy.
+- SVM (RBF) behaves as a flexible pattern learner, integrating texture,
+  concavity, and measurement variability.
+- The models are complementary:
+    • Random Forest provides transparency and stability.
+    • SVM provides sensitivity and nuanced discrimination.
+
+This comparison motivates the next step:
+Phase 3B.2 — Local explainability on hard, borderline, and false-positive cases.

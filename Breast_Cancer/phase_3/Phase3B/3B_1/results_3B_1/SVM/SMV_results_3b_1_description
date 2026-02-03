@@ -1,0 +1,84 @@
+Breast Cancer Classification — Phase 3B.1
+Global Explainability Results (SVM_RBF)
+
+Overview
+--------
+This phase analyzes the global behavior of the SVM (RBF kernel) model using
+Permutation Feature Importance. The goal is to understand which input features
+the model relies on most, both for overall accuracy and for detecting malignant
+cases (recall of the malignant class).
+
+Permutation importance measures how much model performance drops when a feature
+is randomly shuffled. A larger drop indicates that the model depends more
+strongly on that feature.
+
+Two perspectives are evaluated:
+  1) Overall accuracy
+  2) Malignant recall (sensitivity for class 0)
+
+This distinction is critical in medical applications, where the features that
+maximize accuracy may differ from those that reduce false negatives.
+
+--------------------------------------------------
+Top Features by Accuracy Importance
+--------------------------------------------------
+The following features caused the largest drop in accuracy when permuted:
+
+- worst texture
+- radius error
+- area error
+- perimeter error
+- mean texture
+- worst smoothness
+- mean concave points
+- worst concavity
+- mean concavity
+- worst concave points
+
+These results indicate that the SVM relies heavily on texture-related features
+and measurement variability (error features) to achieve strong overall
+classification performance.
+
+--------------------------------------------------
+Top Features by Malignant Recall Importance
+--------------------------------------------------
+When optimizing specifically for malignant recall, a slightly different feature
+ranking emerges:
+
+- worst texture
+- worst concave points
+- worst smoothness
+- worst concavity
+- mean texture
+- radius error
+- mean concavity
+- perimeter error
+- mean concave points
+- worst radius
+
+This highlights that shape irregularity, concavity, and surface roughness are
+particularly important for identifying malignant tumors and avoiding false
+negatives.
+
+--------------------------------------------------
+Key Observations
+--------------------------------------------------
+- The SVM uses different feature signals for overall correctness versus malignant
+  detection.
+- Texture and concavity-related features consistently appear among the most
+  important, aligning well with known clinical indicators of malignancy.
+- Error-based features (e.g., radius error, area error) play a significant role,
+  suggesting that variability and uncertainty in measurements carry diagnostic
+  value.
+- The presence of different top features for accuracy vs recall justifies the
+  use of recall-focused evaluation in medical AI.
+
+--------------------------------------------------
+Why This Matters
+--------------------------------------------------
+These results demonstrate that the SVM model is not a black box:
+its decisions are driven by clinically meaningful features.
+
+This global explainability analysis provides a strong foundation for:
+  - Phase 3B.2: Local explanations on hard and borderline cases
+  - Trustworthy, safety-aware deployment in medical decision support systems

@@ -1,0 +1,28 @@
+Phase 3B.1 — Global Model Explainability (Feature Importance)
+
+In Phase 3B.1, we move beyond performance metrics and error counts to understand
+how the models make decisions at a global level.
+
+Using the exact models and thresholds from Phase 2, this phase applies
+permutation feature importance to both the SVM (RBF) and Random Forest models.
+The goal is to identify which input features the models rely on the most when
+classifying breast tumors as malignant or benign.
+
+Permutation importance works by randomly shuffling one feature at a time and
+measuring the resulting drop in performance. A larger drop indicates that the
+feature plays a more important role in the model’s predictions. This approach is
+model-agnostic and suitable for both linear and non-linear classifiers.
+
+Feature importance is evaluated with respect to:
+
+Overall accuracy
+
+Malignant recall (sensitivity), which is clinically critical
+
+This allows us to distinguish between features that improve general correctness
+and those that specifically help detect malignant cases.
+
+The results provide global interpretability, showing that the models focus
+primarily on medically meaningful features related to tumor shape, size, and
+boundary irregularity. These findings help validate the learned decision logic
+before moving to local, per-sample explanations in Phase 3B.2.

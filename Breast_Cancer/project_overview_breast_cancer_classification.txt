@@ -1,0 +1,132 @@
+Breast Cancer Classification — End-to-End Mini Project
+Data Analytics, Machine Learning, and Explainability
+
+Project Overview
+----------------
+This mini project presents a structured, end-to-end machine learning pipeline
+applied to the Breast Cancer Wisconsin (Diagnostic) dataset. The goal is not only
+to achieve strong predictive performance, but also to demonstrate disciplined
+evaluation, safety-aware decision making, and explainability — all essential
+requirements in medical machine learning.
+
+The project is organized into three main phases, each addressing a different
+aspect of real-world model development: baseline modeling, safety-oriented
+optimization, and interpretability.
+
+--------------------------------------------------
+Dataset Description
+--------------------------------------------------
+The Breast Cancer Wisconsin (Diagnostic) dataset contains 569 biopsy samples,
+each described by 30 numerical features derived from digitized images of fine
+needle aspirate (FNA) biopsies.
+
+These features capture geometric and textural properties of cell nuclei,
+including measurements related to size, shape, smoothness, concavity, and
+symmetry.
+
+The classification task is binary:
+- Malignant (0)
+- Benign (1)
+
+The dataset exhibits moderate class imbalance (~37% malignant, ~63% benign),
+making accuracy alone insufficient for reliable evaluation. Clinically critical
+errors, particularly false negatives (malignant cases predicted as benign),
+must be carefully analyzed.
+
+--------------------------------------------------
+Phase 1 — Baseline Models and Evaluation
+--------------------------------------------------
+Phase 1 establishes strong and interpretable baseline models while validating
+data quality, preprocessing decisions, and evaluation methodology.
+
+Key steps include:
+- Exploratory Data Analysis (EDA) to inspect feature distributions and class balance
+- Stratified 70/30 train–test split to preserve class proportions
+- Evaluation of two classical models:
+  - Logistic Regression (interpretable linear baseline)
+  - k-Nearest Neighbors (k = 5, non-parametric baseline)
+
+Models are trained exclusively on the training set and evaluated on a held-out
+test set using accuracy, precision, recall, F1-score, ROC-AUC, confusion matrices,
+and false negative counts.
+
+Outcome:
+Both models achieve strong overall performance, but Logistic Regression shows
+better generalization and significantly fewer false negatives. Given the medical
+context, Logistic Regression is selected as the strongest Phase 1 baseline.
+
+--------------------------------------------------
+Phase 2 — Advanced Models and Medical Threshold Tuning
+--------------------------------------------------
+Phase 2 builds upon the validated baselines by introducing more expressive
+models and explicitly incorporating clinical risk considerations.
+
+Models introduced:
+- Support Vector Machine (SVM) with RBF kernel
+- Random Forest classifier (100 trees, max depth = 3, max features = 5)
+
+Instead of relying on default decision thresholds, Phase 2 operates on predicted
+probabilities and applies threshold tuning with a medical objective:
+minimize false negatives first, then control false positives, while maintaining
+reasonable accuracy.
+
+Key contributions of Phase 2:
+- Probability-based predictions
+- Systematic threshold sweeps
+- Explicit FN / FP trade-off analysis
+- Safety-aware decision rules aligned with clinical priorities
+
+Outcome:
+Threshold tuning successfully reduces or eliminates false negatives for both
+models, at the cost of increased false positives and slightly reduced accuracy.
+This trade-off is intentional and reflects real-world screening requirements.
+
+--------------------------------------------------
+Phase 3 — Error Analysis and Explainability
+--------------------------------------------------
+Phase 3 shifts focus from performance optimization to understanding model behavior
+and building trust.
+
+Phase 3A — Error Analysis:
+- Analyzes false positives, false negatives, and borderline cases
+- Identifies hard samples near the decision boundary
+- Exports structured case tables for deeper inspection
+
+Phase 3B.1 — Global Explainability:
+- Applies permutation feature importance to SVM and Random Forest
+- Evaluates feature influence with respect to:
+  - Overall accuracy
+  - Malignant recall (clinically critical)
+- Confirms reliance on medically meaningful features related to tumor shape,
+  size, texture, and boundary irregularity
+
+Phase 3B.2 — Local Explainability:
+- Explains individual predictions for hard cases identified in Phase 3A
+- Uses permutation-based local influence to measure feature contributions
+- Produces case-specific explanations showing which features pushed predictions
+  toward malignant or benign
+
+--------------------------------------------------
+Final Conclusions
+--------------------------------------------------
+This project demonstrates a complete, research-ready machine learning workflow
+for medical data analytics:
+
+- Strong baselines are established before introducing complexity
+- Model behavior is aligned with clinical risk through threshold tuning
+- Errors are analyzed rather than ignored
+- Predictions are interpretable at both global and local levels
+
+By combining performance evaluation, safety-aware optimization, and explainability,
+the final models move beyond black-box classifiers and toward transparent,
+trustworthy medical decision-support systems.
+
+The project reflects best practices in applied machine learning and provides a
+solid foundation for more advanced research, such as model calibration, SHAP-based
+explanations, or deployment-oriented validation.
+
+Author
+------
+Evangelos Papaioannou
+Electrical & Computer Engineering (Integrated Master’s)
+Specialization: Artificial Intelligence & Machine Learning

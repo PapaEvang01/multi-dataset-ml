@@ -1,0 +1,23 @@
+Local Explanation — RandomForest
+======================================================================
+
+Case type: borderline
+Test-set index: 0
+Baseline P(malignant): 0.7620
+
+Top contributing features (permutation-based):
+(Positive = increases malignancy probability)
+
+- worst concave points: +0.21447 (↑ increases malignancy)
+- mean concave points: +0.09441 (↑ increases malignancy)
+- worst compactness: +0.05934 (↑ increases malignancy)
+- worst concavity: +0.05693 (↑ increases malignancy)
+- worst smoothness: +0.04121 (↑ increases malignancy)
+- worst area: -0.03437 (↓ decreases malignancy)
+- mean smoothness: +0.03037 (↑ increases malignancy)
+- mean concavity: +0.02984 (↑ increases malignancy)
+- worst texture: +0.02944 (↑ increases malignancy)
+- worst fractal dimension: +0.02509 (↑ increases malignancy)
+
+Interpretation:
+The listed features had the strongest influence on this individual prediction. Large positive contributions pushed the model toward a malignant decision, while negative contributions counteracted it.

@@ -1,0 +1,23 @@
+Local Explanation — SVM_RBF
+======================================================================
+
+Case type: false_positive
+Test-set index: 1
+Baseline P(malignant): 0.0502
+
+Top contributing features (permutation-based):
+(Positive = increases malignancy probability)
+
+- worst area: -0.08729 (↓ decreases malignancy)
+- worst concave points: -0.04369 (↓ decreases malignancy)
+- mean concavity: -0.03880 (↓ decreases malignancy)
+- worst concavity: -0.03375 (↓ decreases malignancy)
+- mean concave points: -0.02786 (↓ decreases malignancy)
+- mean texture: -0.02749 (↓ decreases malignancy)
+- mean symmetry: +0.02716 (↑ increases malignancy)
+- mean perimeter: -0.02291 (↓ decreases malignancy)
+- worst texture: -0.02169 (↓ decreases malignancy)
+- mean area: -0.01971 (↓ decreases malignancy)
+
+Interpretation:
+The listed features had the strongest influence on this individual prediction. Large positive contributions pushed the model toward a malignant decision, while negative contributions counteracted it.

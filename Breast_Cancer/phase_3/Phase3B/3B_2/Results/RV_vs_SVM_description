@@ -1,0 +1,104 @@
+Breast Cancer Classification — Phase 3B.2
+Local Explainability Comparison: SVM (RBF) vs Random Forest
+
+Overview
+--------
+This section compares the local explainability behavior of two classical models:
+  - Support Vector Machine (RBF kernel)
+  - Random Forest
+
+Both models were analyzed using the same local, permutation-based explanation
+method on identical hard cases identified in Phase 3A (false positives and
+borderline samples). This ensures a fair and reproducible comparison.
+
+The goal is to understand *how* and *why* each model arrives at its decisions
+at the individual sample level, and how their decision logic differs in
+clinically ambiguous situations.
+
+--------------------------------------------------
+False Positive Case Behavior
+--------------------------------------------------
+SVM (RBF):
+- False positive explanations are typically dominated by a small number of
+  high-impact features.
+- Texture- and concavity-related features often show strong positive influence,
+  pushing the decision toward malignancy.
+- Contributions tend to be sharper and more concentrated, indicating that the
+  SVM relies on specific feature patterns that closely resemble malignant cases.
+
+Random Forest:
+- False positives arise from the aggregation of many weaker signals rather than
+  a single dominant feature.
+- Shape-related features (e.g., concave points, area, radius) collectively push
+  the prediction above the malignancy threshold.
+- This reflects an ensemble-based, conservative decision strategy.
+
+Interpretation:
+- SVM false positives are driven by strong similarity to malignant feature
+  profiles.
+- Random Forest false positives result from cumulative weak evidence rather than
+  extreme feature values.
+
+--------------------------------------------------
+Borderline Case Behavior
+--------------------------------------------------
+SVM (RBF):
+- Borderline cases often show a clear competition between a few strong positive
+  and negative feature contributions.
+- Small changes in key texture or concavity features can decisively flip the
+  prediction.
+- This indicates a sharper decision boundary and higher sensitivity to local
+  feature variations.
+
+Random Forest:
+- Borderline cases exhibit a smoother balance of contributions across multiple
+  features.
+- No single feature dominates; instead, decisions emerge from averaged behavior
+  across trees.
+- This leads to more stable but less decisive boundaries near the threshold.
+
+Interpretation:
+- The SVM behaves more decisively but is also more sensitive near the boundary.
+- The Random Forest shows greater stability but increased conservatism.
+
+--------------------------------------------------
+Model Decision Style Comparison
+--------------------------------------------------
+SVM (RBF):
+- Local decisions are driven by a small set of influential features.
+- Explanations are compact and easier to interpret at the individual level.
+- Higher sensitivity to subtle feature changes near the decision boundary.
+
+Random Forest:
+- Local decisions are distributed across many features.
+- Explanations reflect ensemble averaging rather than single-feature dominance.
+- More robust but less sharp decision transitions.
+
+--------------------------------------------------
+Clinical Perspective
+--------------------------------------------------
+From a medical decision-support standpoint:
+
+- The SVM offers clearer, more localized explanations that may be easier to
+  communicate to clinicians on a per-case basis.
+- The Random Forest provides more conservative decisions, reducing the risk of
+  missed malignant cases at the cost of increased false positives.
+
+Both behaviors are clinically meaningful and complementary, suggesting that
+model choice should be guided by the desired balance between sensitivity,
+stability, and interpretability.
+
+--------------------------------------------------
+Why This Matters
+--------------------------------------------------
+This comparison demonstrates that local explainability reveals *fundamental
+differences* in how models reason, even when trained on the same data and
+optimized under the same medical objective.
+
+Understanding these differences is critical for:
+  - Trustworthy deployment in clinical workflows
+  - Selecting models aligned with safety priorities
+  - Designing hybrid or ensemble decision-support systems
+
+Phase 3B.2 confirms that both SVM and Random Forest are locally interpretable,
+but they express risk, uncertainty, and evidence in distinct and informative ways.

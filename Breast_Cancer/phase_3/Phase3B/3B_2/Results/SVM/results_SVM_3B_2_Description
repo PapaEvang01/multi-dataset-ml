@@ -1,0 +1,76 @@
+Breast Cancer Classification — Phase 3B.2
+Local Explainability Results (SVM_RBF)
+
+Overview
+--------
+This phase focuses on *local explainability* for the SVM (RBF kernel) model.
+Rather than analyzing global feature importance, Phase 3B.2 explains *individual
+model decisions* for difficult test samples identified in Phase 3A.
+
+The analysis targets two clinically important case types:
+  - False Positives (benign samples predicted as malignant)
+  - Borderline cases (samples with P(malignant) close to the tuned threshold)
+
+Local explanations are generated using permutation-based feature influence,
+measuring how perturbing each feature affects the predicted probability of
+malignancy for a single sample.
+
+--------------------------------------------------
+Methodology
+--------------------------------------------------
+For each selected hard case:
+  - The baseline P(malignant) is recorded
+  - Each feature is permuted using values from the training set
+  - The average change in P(malignant) is measured
+  - Features are ranked by absolute influence
+
+Positive contributions increase malignancy probability,
+while negative contributions push the model toward a benign decision.
+
+--------------------------------------------------
+False Positive Case Analysis
+--------------------------------------------------
+Across false positive cases, the SVM frequently assigns high malignancy
+probability due to strong influence from:
+
+- Texture-related features (mean texture, worst texture)
+- Shape irregularity indicators (worst concave points, mean concavity)
+- Measurement variability features (radius error, area error)
+
+In several cases, these features dominate the prediction even when other
+features counteract malignancy, leading to conservative (over-alerting)
+decisions.
+
+--------------------------------------------------
+Borderline Case Analysis
+--------------------------------------------------
+Borderline cases typically exhibit:
+  - Very low baseline P(malignant)
+  - Competing feature influences with similar magnitudes
+  - Small changes in probability caused by individual features
+
+Common patterns include:
+  - Concavity and texture features decreasing malignancy probability
+  - Symmetry or error-based features slightly increasing malignancy probability
+
+These cases lie close to the decision boundary and represent genuine diagnostic
+ambiguity rather than clear model failure.
+
+--------------------------------------------------
+Key Observations
+--------------------------------------------------
+- Local explanations confirm that SVM decisions are driven by clinically
+  meaningful features rather than noise.
+- Texture and concavity-related features repeatedly dominate individual
+  predictions, consistent with global explainability findings.
+- Borderline cases reflect conflicting feature signals, explaining why threshold
+  tuning has a strong effect on final predictions.
+- False positives arise from cautious behavior when high-risk feature patterns
+  are partially present.
+
+--------------------------------------------------
+Why This Matters
+--------------------------------------------------
+Phase 3B.2 demonstrates that the SVM model is locally interpretable:
+each individual prediction can be traced back to specific feature contributions.
+

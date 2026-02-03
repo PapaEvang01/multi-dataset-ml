@@ -1,0 +1,35 @@
+Global Explainability Summary — RandomForest
+======================================================================
+
+What this means:
+- Permutation importance measures how much performance drops when a feature is randomized.
+- Higher drop => the model relied more on that feature.
+
+Top features by ACCURACY importance:
+  - worst area: 0.008967 ± 0.007660
+  - worst concave points: 0.005068 ± 0.007952
+  - worst radius: 0.000390 ± 0.005835
+  - mean smoothness: 0.000000 ± 0.000000
+  - mean texture: 0.000000 ± 0.000000
+  - mean compactness: 0.000000 ± 0.000000
+  - perimeter error: 0.000000 ± 0.000000
+  - texture error: 0.000000 ± 0.000000
+  - area error: 0.000000 ± 0.000000
+  - radius error: 0.000000 ± 0.000000
+
+Top features by MALIGNANT RECALL importance (class 0 sensitivity):
+  - worst concave points: 0.026042 ± 0.014731
+  - worst area: 0.010417 ± 0.013582
+  - worst perimeter: 0.001042 ± 0.012058
+  - worst radius: 0.001042 ± 0.012058
+  - mean radius: 0.000000 ± 0.000000
+  - mean texture: 0.000000 ± 0.000000
+  - mean concavity: 0.000000 ± 0.000000
+  - mean concave points: 0.000000 ± 0.000000
+  - mean symmetry: 0.000000 ± 0.000000
+  - mean fractal dimension: 0.000000 ± 0.000000
+
+Notes:
+- If the malignant-recall top features differ from accuracy top features, it indicates
+  that the model uses different signals for overall correctness vs catching malignancies.
+- This global view is a foundation for Phase 3B.2 (local explanations for hard cases).

@@ -15,9 +15,9 @@ model-agnostic and suitable for both linear and non-linear classifiers.
 
 Feature importance is evaluated with respect to:
 
-Overall accuracy
+- Overall accuracy
 
-Malignant recall (sensitivity), which is clinically critical
+- Malignant recall (sensitivity), which is clinically critical
 
 This allows us to distinguish between features that improve general correctness
 and those that specifically help detect malignant cases.

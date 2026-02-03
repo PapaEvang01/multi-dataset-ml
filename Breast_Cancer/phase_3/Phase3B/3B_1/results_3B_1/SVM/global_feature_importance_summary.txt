@@ -1,0 +1,35 @@
+Global Explainability Summary — SVM_RBF
+======================================================================
+
+What this means:
+- Permutation importance measures how much performance drops when a feature is randomized.
+- Higher drop => the model relied more on that feature.
+
+Top features by ACCURACY importance:
+  - worst texture: 0.022612 ± 0.009275
+  - radius error: 0.019883 ± 0.006685
+  - area error: 0.017544 ± 0.007082
+  - perimeter error: 0.014035 ± 0.005568
+  - mean texture: 0.013645 ± 0.010388
+  - worst smoothness: 0.010136 ± 0.008665
+  - mean concave points: 0.008187 ± 0.007335
+  - worst concavity: 0.007797 ± 0.007600
+  - mean concavity: 0.007407 ± 0.006908
+  - worst concave points: 0.007407 ± 0.007836
+
+Top features by MALIGNANT RECALL importance (class 0 sensitivity):
+  - worst texture: 0.037500 ± 0.018750
+  - worst concave points: 0.033333 ± 0.014951
+  - worst smoothness: 0.031250 ± 0.016137
+  - worst concavity: 0.030208 ± 0.014509
+  - mean texture: 0.029167 ± 0.016989
+  - radius error: 0.022917 ± 0.009660
+  - mean concavity: 0.020833 ± 0.013582
+  - perimeter error: 0.020833 ± 0.009317
+  - mean concave points: 0.019792 ± 0.015590
+  - worst radius: 0.018750 ± 0.017305
+
+Notes:
+- If the malignant-recall top features differ from accuracy top features, it indicates
+  that the model uses different signals for overall correctness vs catching malignancies.
+- This global view is a foundation for Phase 3B.2 (local explanations for hard cases).

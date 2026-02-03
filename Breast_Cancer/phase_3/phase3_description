@@ -1,1 +1,79 @@
+Breast Cancer Classification — Phase 3B
+Model Explainability (Global + Local)
+
+Phase Overview
+--------------
+Phase 3B focuses on model explainability, addressing a key requirement for
+medical machine learning systems: understanding *why* a model makes its
+predictions, not just how well it performs.
+
+This phase builds directly on the validated models and threshold-tuning logic
+from Phase 2 and the error analysis from Phase 3A. Explainability is examined
+at two complementary levels:
+
+- Phase 3B.1: Global explainability (feature importance)
+- Phase 3B.2: Local explainability (per-sample explanations)
+
+Together, these analyses transform the models from performance-oriented
+classifiers into interpretable, research- and safety-ready decision-support
+systems.
+
+--------------------------------------------------
+Phase 3B.1 — Global Model Explainability
+--------------------------------------------------
+In Phase 3B.1, we analyze how the models behave *on average* across the entire
+test set.
+
+Using permutation feature importance, we quantify how much each input feature
+contributes to:
+- Overall classification accuracy
+- Malignant recall (sensitivity), which is clinically critical
+
+This dual evaluation reveals that features improving general correctness are
+not always the same as those that reduce false negatives. Both SVM and Random
+Forest models rely primarily on medically meaningful features related to tumor
+shape, size, texture, and boundary irregularity.
+
+Global explainability validates that the learned decision logic aligns with
+established clinical indicators of malignancy and provides confidence before
+examining individual predictions.
+
+--------------------------------------------------
+Phase 3B.2 — Local Explainability (Hard Cases)
+--------------------------------------------------
+Phase 3B.2 shifts the focus from global behavior to *individual decisions*.
+
+Rather than asking which features matter overall, this phase explains why the
+model made a specific prediction for difficult samples identified in Phase 3A:
+- False positives (benign → predicted malignant)
+- Borderline cases near the decision threshold
+
+Using a permutation-based local influence method, we measure how perturbing
+each feature affects the predicted probability of malignancy for a single
+sample. Features are ranked by their signed contribution, showing which factors
+pushed the prediction toward malignant or benign.
+
+Local explanations reveal structured, non-random decision patterns and expose
+the mechanisms behind conservative predictions, especially in safety-critical
+regions near the decision boundary.
+
+--------------------------------------------------
+Final Conclusion (Phase 3B.1 + Phase 3B.2)
+--------------------------------------------------
+Phase 3B demonstrates that both the SVM (RBF) and Random Forest models are
+interpretable at multiple levels:
+
+- Globally, they rely on clinically meaningful tumor characteristics rather
+  than spurious correlations.
+- Locally, individual predictions can be explained through clear feature
+  contributions, even for hard and ambiguous cases.
+
+The combination of global and local explainability confirms that the models’
+behavior is transparent, consistent, and aligned with medical reasoning.
+This significantly strengthens trust, supports error inspection, and justifies
+the models’ use as safety-aware decision-support tools rather than opaque
+black-box classifiers.
+
+Phase 3B completes the transition from pure performance evaluation to
+explainable, research-grade medical machine learning.
 

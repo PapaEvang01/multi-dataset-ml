@@ -1,0 +1,96 @@
+Breast Cancer Classification — Phase 3B.2
+Local Explainability Results (RandomForest)
+
+Overview
+
+This phase analyzes the local, sample-level behavior of the Random Forest model,
+focusing on difficult cases identified in Phase 3A. While Phase 3B.1 examined which
+features influence the model globally, Phase 3B.2 explains why specific decisions
+were made for individual test samples.
+
+The analysis targets:
+
+False Positive cases (benign → predicted malignant)
+
+Borderline cases (samples close to the decision threshold)
+
+Local explanations are generated using a permutation-based feature influence method,
+measuring how perturbations of individual features affect the predicted probability
+of malignancy for a single sample.
+
+False Positive Case Explanations
+
+For false positive cases, the Random Forest model’s decisions are dominated by
+shape- and size-related tumor features.
+
+The most influential features consistently include:
+
+worst concave points
+
+worst area
+
+worst radius
+
+worst concavity
+
+mean concave points
+
+In many false positive cases, the strongest contributions are negative, meaning
+that several features reduce the malignancy probability. However, smaller positive
+contributions from correlated concavity and compactness features are sufficient to
+push the final prediction above the malignancy threshold.
+
+This indicates that false positives are not caused by a single extreme feature, but
+by the combined effect of multiple weak and correlated signals, reflecting a
+conservative decision strategy.
+
+Borderline Case Explanations
+
+Borderline cases show a clearer balance between features that increase and decrease
+malignancy probability.
+
+Features increasing malignancy probability commonly include:
+
+worst concave points
+
+mean concave points
+
+worst compactness
+
+worst concavity
+
+worst smoothness
+
+Features decreasing malignancy probability are typically related to:
+
+tumor size (worst area, worst radius)
+
+global perimeter measurements
+
+These cases lie naturally close to the decision boundary, where modest changes in a
+few features could flip the predicted class. This behavior reflects genuine
+diagnostic ambiguity rather than unstable or noisy model behavior.
+
+Key Observations
+
+The Random Forest relies heavily on extreme geometric and boundary-related
+features at the individual sample level.
+
+Local explanations reveal a structured but rigid decision logic, with concavity
+measures playing a central role.
+
+False positives arise from conservative aggregation of weak malignancy signals,
+consistent with a safety-oriented objective.
+
+Borderline cases highlight regions of overlapping benign and malignant feature
+characteristics.
+
+Why This Matters
+
+Phase 3B.2 demonstrates that the Random Forest model’s individual predictions are
+locally interpretable and clinically meaningful. The explanations confirm alignment
+with a safety-focused diagnostic strategy, where avoiding missed malignant cases is
+prioritized, even at the cost of increased false positives.
+
+This local explainability analysis strengthens trust in the model and supports its
+use as a transparent medical decision-support system.

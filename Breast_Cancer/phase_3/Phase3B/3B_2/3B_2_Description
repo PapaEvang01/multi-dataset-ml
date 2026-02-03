@@ -1,54 +1,67 @@
-Phase 3B.2 — Local Explainability (Hard Cases)
+Breast Cancer Classification — Phase 3B.2
+Local Explainability (Hard Cases)
 
 Overview
-This phase moves from “global” feature importance to “local” explanations: 
-instead of asking which features matter on average, we explain why the model 
-made a specific decision for difficult samples. The focus is on hard cases found in Phase 3A:
+--------
+This phase shifts the analysis from global feature importance to local,
+sample-level explanations. Instead of asking which features matter on average,
+we investigate why the model made a specific decision for individual,
+challenging samples identified in Phase 3A.
 
-False Positives (benign → predicted malignant)
-
-Borderline cases (samples close to the decision threshold)
+The analysis focuses on:
+- False Positives: benign samples predicted as malignant
+- Borderline cases: samples with predicted probabilities close to the decision threshold
 
 Goal
-The goal is to understand which individual features pushed a single 
-prediction toward malignant or pulled it toward benign, making the decision more interpretable and research-ready.
+----
+The objective is to understand which individual features pushed a single
+prediction toward malignancy or pulled it toward benign. This transforms model
+outputs into interpretable, case-specific explanations suitable for research
+and medical decision-support contexts.
 
-Method (Permutation-based local influence)
-For each selected test sample, we compute a local explanation
-using a simple permutation-style approach:
+Method: Permutation-Based Local Influence
+-----------------------------------------
+For each selected test sample, a local explanation is computed using a
+permutation-style approach:
 
-    1.  Compute the baseline probability P(malignant) for that sample.
-
-    2. For each feature, repeatedly replace its value with a random value sampled from the training set (reference distribution).
-
-    3. Measure how P(malignant) changes compared to the baseline.
-
-    4. Average the change across multiple repeats to estimate that feature’s influence for this single sample.
+1. Compute the baseline probability P(malignant) for the sample.
+2. For each feature, repeatedly replace its value with a random value drawn
+   from the training set (reference distribution).
+3. Measure the change in P(malignant) relative to the baseline.
+4. Average the change across multiple repetitions to estimate the feature’s
+   local influence for that specific sample.
 
 Interpretation
+--------------
+- Positive contribution: the feature increases malignancy probability
+  (pushes the prediction toward malignant).
+- Negative contribution: the feature decreases malignancy probability
+  (pushes the prediction toward benign).
 
-Positive contribution: feature increases malignancy probability (pushes toward malignant)
-
-Negative contribution: feature decreases malignancy probability (pushes toward benign)
-The output ranks features by the strength of their influence for that specific case.
+Features are ranked by the magnitude of their influence, highlighting the
+most decisive factors for each individual prediction.
 
 Reproducibility
-
-- Reuses Phase 2 model definitions (no model duplication)
-
-- Uses the same stratified 70/30 split as Phase 3A (random_state=42)
-
+---------------
+- Reuses Phase 2 model definitions (no duplication of training logic)
+- Uses the same stratified 70/30 train–test split as Phase 3A (random_state=42)
 - Explains only real hard cases exported from Phase 3A CSV files
 
 Outputs
-For each model (SVM_RBF and RandomForest), the script generates local explanation text files under:
+-------
+For each model (SVM_RBF and RandomForest), local explanation files are saved under:
+
 results_phase3/explainability/<MODEL_NAME>/local_explanations/
 
-Each explanation file includes:
+Each file contains:
+- Case type (false positive or borderline)
+- Test-set index
+- Baseline P(malignant)
+- Top 10 contributing features with signed influence values
 
-case type (false positive / borderline), test-set index, baseline P(malignant), 
-top 10 contributing features with signed influence values
-
-Why this matters: In medical ML, performance alone is not enough. Local explainability helps 
-justify decisions, inspect failure modes (especially false positives), and build trust 
-by showing which features drove a prediction on a case-by-case basis.
+Why This Matters
+----------------
+In medical machine learning, performance metrics alone are insufficient.
+Local explainability enables inspection of individual decisions, clarifies
+failure modes (especially false positives), and builds trust by showing
+which features drove a prediction on a case-by-case basis.

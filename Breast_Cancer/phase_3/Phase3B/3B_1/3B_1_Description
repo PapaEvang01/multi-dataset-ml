@@ -1,28 +1,52 @@
 Phase 3B.1 — Global Model Explainability (Feature Importance)
 
-In Phase 3B.1, we move beyond performance metrics and error counts to understand
-how the models make decisions at a global level.
+Phase Overview
+--------------
+Phase 3B.1 moves beyond performance metrics and error counts to analyze how the
+models make decisions at a global level. The objective of this phase is to
+understand which input features are most influential in the overall prediction
+process.
 
-Using the exact models and thresholds from Phase 2, this phase applies
-permutation feature importance to both the SVM (RBF) and Random Forest models.
-The goal is to identify which input features the models rely on the most when
-classifying breast tumors as malignant or benign.
+Using the exact model configurations and tuned thresholds established in Phase 2,
+this phase applies permutation feature importance to both the SVM (RBF kernel)
+and Random Forest models.
 
-Permutation importance works by randomly shuffling one feature at a time and
-measuring the resulting drop in performance. A larger drop indicates that the
-feature plays a more important role in the model’s predictions. This approach is
-model-agnostic and suitable for both linear and non-linear classifiers.
+Methodology
+-----------
+Permutation feature importance evaluates model reliance on individual features
+by randomly shuffling one feature at a time and measuring the resulting drop in
+performance. A larger performance drop indicates a stronger dependence on that
+feature.
 
-Feature importance is evaluated with respect to:
+This approach is model-agnostic and suitable for both linear and non-linear
+classifiers, making it appropriate for a fair comparison between SVM and
+Random Forest.
 
-- Overall accuracy
+Evaluation Perspectives
+-----------------------
+Feature importance is analyzed with respect to two complementary objectives:
 
-- Malignant recall (sensitivity), which is clinically critical
+- Overall accuracy, reflecting general classification performance
+- Malignant recall (sensitivity), which is clinically critical and directly
+  related to reducing false negatives
 
-This allows us to distinguish between features that improve general correctness
-and those that specifically help detect malignant cases.
+Evaluating both perspectives allows us to distinguish between features that
+optimize global correctness and those that specifically support reliable
+detection of malignant tumors.
 
-The results provide global interpretability, showing that the models focus
+Key Insights
+------------
+The results provide global interpretability, showing that both models rely
 primarily on medically meaningful features related to tumor shape, size, and
-boundary irregularity. These findings help validate the learned decision logic
-before moving to local, per-sample explanations in Phase 3B.2.
+boundary irregularity. Features associated with concavity, texture, and
+measurement variability consistently emerge as influential.
+
+These findings validate that the learned decision logic aligns with known
+clinical indicators of malignancy and is not driven by spurious correlations.
+
+Role Within the Pipeline
+------------------------
+Phase 3B.1 establishes global trust in the models by confirming that their
+predictions are grounded in meaningful feature patterns. This global
+explainability analysis serves as a necessary foundation for Phase 3B.2, which
+focuses on local, per-sample explanations of difficult and ambiguous cases.

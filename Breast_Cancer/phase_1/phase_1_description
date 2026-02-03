@@ -1,82 +1,97 @@
 Breast Cancer Classification — Phase 1: Baseline Models (Tabular Data)
 
-This phase implements the first stage of a structured, real-world machine learning
-pipeline using the Breast Cancer Wisconsin (Diagnostic) dataset. The primary objective
-of Phase 1 is to establish strong, interpretable baseline models while validating the
-quality of the data, preprocessing steps, and evaluation methodology before moving to
-more complex approaches.
+Phase Overview
+--------------
+Phase 1 represents the first step of a structured, real-world machine learning
+pipeline built on the Breast Cancer Wisconsin (Diagnostic) dataset. The objective
+of this phase is to establish strong and interpretable baseline models while
+validating data quality, preprocessing decisions, and evaluation methodology
+before progressing to more complex approaches.
 
-Problem Description:
-Given numerical features extracted from breast tumor biopsies, such as radius,
-texture, smoothness, and concavity, the task is to classify each sample into one of
-two categories:
+Problem Description
+-------------------
+Given numerical features extracted from breast tumor biopsies—such as radius,
+texture, smoothness, and concavity—the task is to classify each sample as:
 
-Malignant (0)
+- Malignant (0)
+- Benign (1)
 
-Benign (1)
+Dataset
+-------
+- Source: sklearn.datasets.load_breast_cancer
+- Total samples: 569
+- Total features: 30 numerical features
+- Target encoding:
+    0 → malignant
+    1 → benign
 
-Dataset:
-
-Source: sklearn.datasets.load_breast_cancer
-
-Total samples: 569
-
-Total features: 30 numerical features
-
-Target encoding:
-0 corresponds to malignant
-1 corresponds to benign
-
-Phase 1 Workflow:
-Phase 1 follows a disciplined machine learning workflow designed to emphasize
+Phase 1 Workflow
+----------------
+This phase follows a disciplined machine learning workflow with emphasis on
 interpretability, generalization, and clinically meaningful evaluation.
 
 Exploratory Data Analysis (EDA)
+-------------------------------
 The dataset is inspected to understand its structure, feature distributions,
 and class balance. Visualizations such as class distribution plots and feature
 histograms are generated to identify scale differences, skewness, and potential
 outliers. This analysis is performed prior to model training and informs
-preprocessing decisions.
+subsequent preprocessing decisions.
 
-Train and Test Split
-A stratified split is applied to preserve class proportions, using 70 percent
-of the data for training and 30 percent as a held-out test set. The test set is
-strictly reserved for final evaluation and is never used during training.
+Train–Test Split
+----------------
+A stratified split is applied to preserve class proportions, using 70% of the
+data for training and 30% as a held-out test set. The test set is strictly
+reserved for final evaluation and is never used during training.
 
 Baseline Models
+---------------
 Two classical machine learning models are evaluated:
 
-Logistic Regression, used as an interpretable linear baseline
+- Logistic Regression, serving as an interpretable linear baseline
+- k-Nearest Neighbors (k = 5), serving as a simple non-parametric baseline
 
-k-Nearest Neighbors (k=5), used as a simple non-parametric baseline
-Feature scaling is applied through scikit-learn Pipelines to ensure consistency
+Feature scaling is applied using scikit-learn Pipelines to ensure consistency
 and prevent data leakage.
 
 Training and Evaluation
+-----------------------
 Models are trained exclusively on the training set and evaluated on the held-out
-test set. Evaluation metrics include training accuracy, test accuracy, precision,
-recall, F1-score, ROC-AUC, confusion matrices, and false negative counts. Special
-emphasis is placed on false negatives, where malignant cases are incorrectly
-classified as benign, as this represents the most critical error in a medical
-screening context.
+test set. Evaluation metrics include:
+
+- Training and test accuracy
+- Precision, recall, and F1-score
+- ROC-AUC
+- Confusion matrices
+- False negative counts
+
+Special emphasis is placed on false negatives (malignant cases predicted as
+benign), as this represents the most critical error in a medical screening
+context.
 
 Results and Model Comparison
-Phase 1 produces dataset-level exploratory plots, model-specific evaluation
-outputs, and general comparison visualizations such as train versus test accuracy,
+----------------------------
+Phase 1 produces dataset-level exploratory visualizations, model-specific
+evaluation outputs, and general comparison plots such as train vs test accuracy,
 ROC curves, and false negative comparisons. A summary CSV file consolidates the
 key metrics for all evaluated models.
 
-Phase 1 Outcome:
-Both baseline models achieve high overall performance. However, Logistic Regression
-demonstrates superior generalization and significantly fewer false negatives compared
-to k-Nearest Neighbors. Given the clinical importance of minimizing missed malignant
-cases, Logistic Regression is selected as the strongest baseline model for Phase 1.
+Phase 1 Outcome
+---------------
+Both baseline models achieve strong overall performance. However, Logistic
+Regression demonstrates better generalization and significantly fewer false
+negatives compared to k-Nearest Neighbors. Given the clinical importance of
+minimizing missed malignant cases, Logistic Regression is selected as the
+strongest baseline model for Phase 1.
 
-Design Philosophy:
-Phase 1 prioritizes correctness, interpretability, and rigorous evaluation over raw
-performance. The results serve as a validated baseline and reference point for Phase 2,
-which will explore more advanced models and optimization strategies.
+Design Philosophy
+-----------------
+Phase 1 prioritizes correctness, interpretability, and rigorous evaluation over
+raw performance. The results serve as a validated baseline and reference point
+for Phase 2, which explores stronger models and safety-aware optimization
+strategies.
 
-Author:
-Evangelos Papaioannou
+Author
+------
+Evangelos Papaioannou  
 Electrical and Computer Engineering (Integrated Master’s)

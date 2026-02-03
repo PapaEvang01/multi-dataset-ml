@@ -34,11 +34,11 @@ The output ranks features by the strength of their influence for that specific c
 
 Reproducibility
 
-Reuses Phase 2 model definitions (no model duplication)
+- Reuses Phase 2 model definitions (no model duplication)
 
-Uses the same stratified 70/30 split as Phase 3A (random_state=42)
+- Uses the same stratified 70/30 split as Phase 3A (random_state=42)
 
-Explains only real hard cases exported from Phase 3A CSV files
+- Explains only real hard cases exported from Phase 3A CSV files
 
 Outputs
 For each model (SVM_RBF and RandomForest), the script generates local explanation text files under:

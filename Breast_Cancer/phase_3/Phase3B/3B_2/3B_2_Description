@@ -1,1 +1,54 @@
+Phase 3B.2 — Local Explainability (Hard Cases)
 
+Overview
+This phase moves from “global” feature importance to “local” explanations: 
+instead of asking which features matter on average, we explain why the model 
+made a specific decision for difficult samples. The focus is on hard cases found in Phase 3A:
+
+False Positives (benign → predicted malignant)
+
+Borderline cases (samples close to the decision threshold)
+
+Goal
+The goal is to understand which individual features pushed a single 
+prediction toward malignant or pulled it toward benign, making the decision more interpretable and research-ready.
+
+Method (Permutation-based local influence)
+For each selected test sample, we compute a local explanation
+using a simple permutation-style approach:
+
+    1.  Compute the baseline probability P(malignant) for that sample.
+
+    2. For each feature, repeatedly replace its value with a random value sampled from the training set (reference distribution).
+
+    3. Measure how P(malignant) changes compared to the baseline.
+
+    4. Average the change across multiple repeats to estimate that feature’s influence for this single sample.
+
+Interpretation
+
+Positive contribution: feature increases malignancy probability (pushes toward malignant)
+
+Negative contribution: feature decreases malignancy probability (pushes toward benign)
+The output ranks features by the strength of their influence for that specific case.
+
+Reproducibility
+
+Reuses Phase 2 model definitions (no model duplication)
+
+Uses the same stratified 70/30 split as Phase 3A (random_state=42)
+
+Explains only real hard cases exported from Phase 3A CSV files
+
+Outputs
+For each model (SVM_RBF and RandomForest), the script generates local explanation text files under:
+results_phase3/explainability/<MODEL_NAME>/local_explanations/
+
+Each explanation file includes:
+
+case type (false positive / borderline), test-set index, baseline P(malignant), 
+top 10 contributing features with signed influence values
+
+Why this matters: In medical ML, performance alone is not enough. Local explainability helps 
+justify decisions, inspect failure modes (especially false positives), and build trust 
+by showing which features drove a prediction on a case-by-case basis.

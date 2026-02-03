@@ -1,0 +1,78 @@
+Breast Cancer Classification — Phase 3B.1
+Global Model Explainability (Random Forest)
+
+Overview
+--------
+Phase 3B.1 focuses on *global explainability* for the Random Forest model using
+Permutation Importance. The goal is to understand which input features the model
+relies on most, both for overall predictive accuracy and for clinically critical
+performance (malignant recall).
+
+Permutation importance measures how much model performance degrades when a single
+feature is randomly shuffled. A larger performance drop indicates stronger reliance
+on that feature.
+
+Two perspectives are analyzed:
+  1) Importance with respect to overall Accuracy
+  2) Importance with respect to Malignant Recall (sensitivity for class 0)
+
+This distinction is crucial in medical AI, where features important for catching
+malignant cases may differ from those that optimize overall accuracy.
+
+Results — Accuracy-Based Importance
+-----------------------------------
+When evaluated using accuracy as the performance metric, the Random Forest model
+relies most strongly on features describing tumor size and shape irregularity.
+
+Top contributing features:
+  - worst area
+  - worst concave points
+  - worst radius
+
+These features represent extreme (worst-case) measurements of tumor geometry,
+indicating that the model uses size and boundary irregularity as primary signals
+for correct classification across all samples.
+
+Most remaining features show near-zero importance, suggesting that the Random Forest
+effectively concentrates decision-making on a small subset of highly informative
+features.
+
+Results — Malignant Recall Importance
+-------------------------------------
+When importance is measured with respect to malignant recall (i.e., the ability to
+correctly identify malignant tumors), a slightly different pattern emerges.
+
+Top contributing features:
+  - worst concave points
+  - worst area
+  - worst perimeter
+  - worst radius
+
+The dominance of *worst concave points* indicates that boundary sharpness and local
+irregularities are particularly critical for detecting malignancies, even more so
+than for overall accuracy.
+
+This confirms that the model leverages different feature signals depending on whether
+the objective is global correctness or minimizing false negatives.
+
+Key Insights
+------------
+- The Random Forest relies heavily on "worst" tumor measurements rather than mean
+  values, aligning with clinical intuition that extreme morphological characteristics
+  are more indicative of malignancy.
+- Features important for malignant recall are not identical to those optimizing
+  accuracy, highlighting a trade-off between safety-oriented and performance-oriented
+  objectives.
+- Many features contribute little or nothing to the final decision, suggesting that
+  the model learns a sparse, interpretable structure despite being an ensemble method.
+
+Connection to Phase 3B.2
+------------------------
+This global feature analysis provides the foundation for Phase 3B.2, where local
+explanations (per-sample analysis) will be applied to:
+  - false positives
+  - borderline cases
+  - hard examples near the decision boundary
+
+Together, Phase 3B.1 and Phase 3B.2 move the project from performance evaluation
+toward transparent, clinically interpretable decision support.

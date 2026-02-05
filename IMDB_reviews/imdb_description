@@ -1,6 +1,8 @@
 IMDB Movie Reviews — Sentiment Analysis Project
-1. Project Objective
+Project Objective
 
-The goal of this project is to analyze and classify movie reviews based on their sentiment (positive or negative) using natural language processing techniques.
+The goal of this project is to analyze and classify movie reviews 
+based on their sentiment (positive or negative) using natural language processing techniques.
 
-Unlike previous projects focused on image and tabular data, this work emphasizes text understanding, language representation, and data-driven decision making in unstructured data.
+Unlike previous projects focused on image and tabular data, 
+this work emphasizes text understanding, language representation, and data-driven decision making in unstructured data.

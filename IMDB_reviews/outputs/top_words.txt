@@ -1,0 +1,61 @@
+IMDB Sentiment Analysis - Top Words (Logistic Regression)
+============================================================
+
+Class 1 (positive coefficient direction): pos
+Class 0 (negative coefficient direction): neg
+
+Top 25 words pushing towards 'pos'
+------------------------------------------------------------
+great                      coef=+8.329692
+excellent                  coef=+7.642975
+perfect                    coef=+5.680552
+best                       coef=+5.345069
+wonderful                  coef=+5.011860
+amazing                    coef=+4.975455
+loved                      coef=+4.737713
+today                      coef=+4.599495
+brilliant                  coef=+4.553656
+enjoyed                    coef=+4.278810
+favorite                   coef=+4.253518
+fun                        coef=+4.217091
+highly                     coef=+4.216393
+hilarious                  coef=+4.088528
+well                       coef=+4.081378
+love                       coef=+3.966174
+superb                     coef=+3.771078
+enjoyable                  coef=+3.724671
+gem                        coef=+3.642472
+definitely                 coef=+3.555449
+fantastic                  coef=+3.538036
+it                         coef=+3.482824
+still                      coef=+3.383791
+surprised                  coef=+3.367193
+job                        coef=+3.272710
+
+Top 25 words pushing towards 'neg'
+------------------------------------------------------------
+worst                      coef=-10.742343
+bad                        coef=-8.767772
+awful                      coef=-7.871762
+waste                      coef=-7.781640
+boring                     coef=-7.252435
+terrible                   coef=-6.340491
+poor                       coef=-6.247813
+nothing                    coef=-5.682176
+dull                       coef=-5.423499
+worse                      coef=-5.048090
+poorly                     coef=-4.951166
+unfortunately              coef=-4.817514
+fails                      coef=-4.672002
+horrible                   coef=-4.536633
+minutes                    coef=-4.493143
+annoying                   coef=-4.370311
+disappointing              coef=-4.324738
+lame                       coef=-4.233437
+disappointment             coef=-4.220818
+instead                    coef=-4.207104
+save                       coef=-4.159487
+script                     coef=-4.143840
+stupid                     coef=-4.141228
+ridiculous                 coef=-4.102907
+supposed                   coef=-4.099917

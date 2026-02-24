@@ -1,0 +1,18 @@
+IMDB Sentiment AnalysisC
+==================================================
+
+Accuracy: 0.8978
+
+Confusion Matrix:
+[[4432  568]
+ [ 454 4546]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         neg       0.91      0.89      0.90      5000
+         pos       0.89      0.91      0.90      5000
+
+    accuracy                           0.90     10000
+   macro avg       0.90      0.90      0.90     10000
+weighted avg       0.90      0.90      0.90     10000

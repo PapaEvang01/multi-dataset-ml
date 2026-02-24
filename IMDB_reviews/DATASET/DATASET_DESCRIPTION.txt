@@ -1,0 +1,98 @@
+IMDB Movie Reviews Dataset
+===========================
+
+1. Overview
+-----------
+
+The IMDB Movie Reviews dataset is a widely used benchmark dataset for
+binary sentiment classification in Natural Language Processing (NLP).
+
+The task consists of classifying movie reviews as either:
+
+    - Positive (pos)
+    - Negative (neg)
+
+This dataset is commonly used to evaluate text representation methods
+such as TF-IDF as well as classical and deep learning models.
+
+
+2. Dataset Structure
+--------------------
+
+The dataset contains 50,000 labeled English-language movie reviews.
+
+It is balanced:
+    - 25,000 positive reviews
+    - 25,000 negative reviews
+
+The data is already split into:
+
+    - train/  (25,000 reviews)
+    - test/   (25,000 reviews)
+
+Each review is stored as a separate .txt file.
+
+Folder structure:
+
+    aclImdb/
+        train/
+            pos/
+            neg/
+        test/
+            pos/
+            neg/
+
+
+3. Characteristics
+------------------
+
+- Real-world user-generated content
+- Contains informal language and varied writing styles
+- Includes sarcasm, mixed sentiment, and ambiguous phrasing
+- Balanced class distribution
+
+Because the data is unstructured text, it requires preprocessing and
+feature extraction before being used in machine learning models.
+
+
+4. Challenges
+-------------
+
+Sentiment analysis on this dataset is challenging due to:
+
+- Negation handling (e.g., "not good")
+- Sarcasm and irony
+- Mixed sentiment within a single review
+- Very short or vague reviews
+- Informal grammar and spelling
+
+These characteristics make the dataset suitable for evaluating
+text representation techniques and classification robustness.
+
+
+5. Usage in This Project
+------------------------
+
+In this project, the IMDB dataset is used to:
+
+- Implement a full NLP pipeline
+- Apply text preprocessing (cleaning and normalization)
+- Transform text into numerical features using TF-IDF
+- Train a Logistic Regression classifier
+- Evaluate classification performance
+- Analyze the most influential words using model coefficients
+
+The dataset serves as the text modality component of a
+multi-modal machine learning portfolio, alongside:
+
+    - MNIST (image classification)
+    - Breast Cancer Wisconsin (tabular classification)
+
+
+6. Source
+---------
+
+Original dataset:
+Andrew Maas et al., Stanford University
+https://ai.stanford.edu/~amaas/data/sentiment/
+

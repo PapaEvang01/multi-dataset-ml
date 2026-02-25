@@ -1,8 +1,154 @@
-IMDB Movie Reviews — Sentiment Analysis Project
-Project Objective
+IMDB Sentiment Analysis
+Project Description
+===========================
 
-The goal of this project is to analyze and classify movie reviews 
-based on their sentiment (positive or negative) using natural language processing techniques.
 
-Unlike previous projects focused on image and tabular data, 
-this work emphasizes text understanding, language representation, and data-driven decision making in unstructured data.
+1. Project Overview
+-------------------
+
+This project implements a complete Natural Language Processing (NLP)
+pipeline for binary sentiment classification using the IMDB Movie
+Reviews dataset.
+
+The objective is to classify movie reviews as either:
+
+    - Positive (pos)
+    - Negative (neg)
+
+The project emphasizes clean architecture, modular design,
+reproducibility, and model interpretability rather than
+overly complex modeling.
+
+
+2. Motivation
+-------------
+
+Unlike image and tabular datasets, text data is unstructured and
+requires specialized preprocessing and feature engineering.
+
+This project demonstrates the ability to:
+
+    - Handle raw text data
+    - Perform text normalization
+    - Transform text into numerical features
+    - Train and evaluate classification models
+    - Interpret model decisions using learned coefficients
+
+It represents the text modality component of a
+multi-domain machine learning portfolio.
+
+
+3. Dataset
+----------
+
+Dataset:
+    IMDB Movie Reviews (Stanford University)
+
+Size:
+    50,000 labeled reviews
+    - 25,000 positive
+    - 25,000 negative
+
+Structure:
+    Pre-split into training and test sets.
+
+The dataset contains real-world user-generated content,
+including sarcasm, mixed sentiment, and informal language.
+
+
+4. Methodology
+--------------
+
+The project follows a structured machine learning pipeline:
+
+    1. Data Loading
+       - Load reviews from disk
+       - Clean HTML artifacts
+       - Normalize text
+
+    2. Feature Engineering
+       - Convert text to numerical vectors using TF-IDF
+       - Limit vocabulary size for stability and efficiency
+
+    3. Model Training
+       - Train Logistic Regression classifier
+       - Use stratified train/test split
+
+    4. Evaluation
+       - Compute accuracy
+       - Compute precision, recall, and F1-score
+       - Generate confusion matrix
+       - Save all metrics automatically
+
+    5. Model Interpretation
+       - Extract most influential words
+       - Identify top positive and negative indicators
+
+
+5. Results
+----------
+
+Baseline Accuracy:
+    ~89.8%
+
+Performance is balanced across both classes,
+with similar precision and recall values.
+
+The model successfully captures strong sentiment indicators
+such as:
+
+    Positive: great, excellent, amazing, wonderful
+    Negative: worst, bad, awful, boring
+
+This confirms that TF-IDF combined with Logistic Regression
+is a strong classical baseline for sentiment classification.
+
+
+6. Engineering Design
+---------------------
+
+The codebase follows a modular structure:
+
+    config.py      -> configuration management
+    data.py        -> data loading and preprocessing
+    model.py       -> model and feature construction
+    train.py       -> pipeline orchestration
+    evaluate.py    -> evaluation and output generation
+
+All outputs (metrics, plots, top words) are saved
+automatically inside the outputs/ directory.
+
+This structure mirrors production-ready ML workflows
+rather than single-script experiments.
+
+
+7. Key Strengths
+----------------
+
+    - Clean and modular architecture
+    - Reproducible results
+    - Automatic output generation
+    - Model interpretability
+    - Balanced evaluation metrics
+    - Clear separation of concerns
+
+
+8. Conclusion
+-------------
+
+This project demonstrates a disciplined and structured
+approach to sentiment analysis using classical machine
+learning techniques.
+
+It highlights not only classification performance,
+but also transparency and understanding of model behavior.
+
+The IMDB Sentiment Analysis project completes a
+multi-modal machine learning portfolio alongside:
+
+    - MNIST (image classification)
+    - Breast Cancer Wisconsin (tabular classification)
+
+Together, these projects demonstrate the ability to
+design and implement machine learning solutions
+across different data modalities.

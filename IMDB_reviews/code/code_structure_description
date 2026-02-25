@@ -1,1 +1,186 @@
+IMDB Sentiment Analysis
+Code Structure Description
+==========================
 
+
+1. Introduction
+---------------
+
+This project follows a modular and structured machine learning
+architecture. Instead of implementing the full pipeline inside a
+single script, responsibilities are separated into dedicated modules.
+
+This design improves:
+
+    - Readability
+    - Maintainability
+    - Reproducibility
+    - Scalability for future extensions
+
+
+2. Project Architecture
+-----------------------
+
+The core logic is implemented inside the "src/" directory:
+
+    src/
+        config.py
+        data.py
+        model.py
+        evaluate.py
+        train.py
+
+Each file has a clearly defined responsibility.
+
+
+3. Module Responsibilities
+--------------------------
+
+
+3.1 config.py
+--------------
+
+Purpose:
+    Central configuration management.
+
+Contains:
+    - Dataset path
+    - Train/test split parameters
+    - TF-IDF hyperparameters
+    - Model hyperparameters
+
+Why:
+    Keeps all adjustable parameters in one place.
+    Avoids hard-coded values inside training logic.
+    Enables easy experimentation.
+
+
+3.2 data.py
+------------
+
+Purpose:
+    Data loading and preprocessing.
+
+Responsibilities:
+    - Load IMDB reviews from disk
+    - Clean raw text (HTML removal, normalization)
+    - Return processed text and labels
+
+Why:
+    Separates raw data handling from modeling logic.
+    Keeps preprocessing reusable and isolated.
+
+
+3.3 model.py
+-------------
+
+Purpose:
+    Model and feature construction.
+
+Responsibilities:
+    - Build TF-IDF vectorizer
+    - Build Logistic Regression classifier
+
+Why:
+    Allows easy replacement or extension of models
+    (e.g., Linear SVM, different n-gram settings).
+
+
+3.4 evaluate.py
+----------------
+
+Purpose:
+    Performance evaluation and result storage.
+
+Responsibilities:
+    - Compute accuracy
+    - Compute classification report
+    - Generate confusion matrix
+    - Save metrics to text file
+    - Save confusion matrix as image
+    - Extract and save most influential words
+      from Logistic Regression coefficients
+
+Why:
+    Keeps evaluation separate from training logic.
+    Ensures reproducible outputs saved in the
+    "outputs/" directory.
+
+
+3.5 train.py
+-------------
+
+Purpose:
+    Pipeline orchestration.
+
+Responsibilities:
+    - Load configuration
+    - Load and preprocess data
+    - Split dataset
+    - Apply TF-IDF transformation
+    - Train model
+    - Call evaluation module
+
+Why:
+    Acts as the main execution entry point.
+    Connects all components into a complete workflow.
+
+
+4. Execution Flow
+-----------------
+
+When running:
+
+    python src/train.py
+
+The pipeline executes in the following order:
+
+    1. Configuration is loaded
+    2. Dataset is loaded and cleaned
+    3. Data is split into train/test sets
+    4. Text is converted to TF-IDF vectors
+    5. Logistic Regression is trained
+    6. Evaluation metrics are computed
+    7. Results are saved to the outputs/ directory
+
+
+5. Design Philosophy
+--------------------
+
+This project emphasizes:
+
+    - Separation of concerns
+    - Clear modular design
+    - Reproducibility
+    - Interpretability
+
+Compared to typical single-file scripts, this
+architecture resembles a production-ready
+machine learning workflow.
+
+
+6. Extensibility
+----------------
+
+The structure allows easy extension:
+
+    - Add alternative models (e.g., Linear SVM)
+    - Add n-gram variations
+    - Add cross-validation
+    - Add error analysis modules
+    - Add confidence threshold tuning
+
+Because components are decoupled, modifications
+can be made without affecting the entire pipeline.
+
+
+7. Conclusion
+-------------
+
+The modular code structure reflects disciplined
+machine learning engineering practices.
+
+It demonstrates the ability to design clean,
+scalable pipelines rather than isolated experiments,
+making the project suitable for portfolio and
+professional presentation.

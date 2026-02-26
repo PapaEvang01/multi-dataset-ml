@@ -2,7 +2,7 @@
 """
 model.py
 
-Model components for Phase 1 (baseline).
+Model components.
 
 Responsibilities:
 - Build the TF-IDF vectorizer (text -> numeric features).
@@ -38,3 +38,4 @@ def build_model(cfg):
     Logistic Regression is a strong, interpretable model for sparse text features.
     """
     return LogisticRegression(max_iter=cfg.max_iter)
+

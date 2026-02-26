@@ -208,3 +208,19 @@ Rather than focusing on a single dataset, this repository highlights versatility
 - Apply SHAP explainability to the medical dataset  
 - Extend the lab with additional real-world datasets  
 - Deploy selected models as APIs  
+
+---
+
+# 👨‍💻 Author
+
+**Evangelos Papaioannou**  
+Electrical & Computer Engineer (AI & Machine Learning)
+
+Recent graduate from Democritus University of Thrace (D.U.Th.), specializing in Artificial Intelligence and Machine Learning.  
+
+This project was developed as part of continuous self-improvement and applied ML practice after graduation and during military service.
+
+🔗 GitHub: https://github.com/PapaEvang01  
+🔗 LinkedIn: https://www.linkedin.com/in/evangelos-papaioannou/  
+
+---
